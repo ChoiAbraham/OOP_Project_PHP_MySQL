@@ -20,7 +20,7 @@ class PostRepository extends AbstractRepository
      */
     public function listPostsByCommentsNotValid()
     {
-        $stmt = 'SELECT posts.id, posts.title, posts.standfirst, posts.content, posts.lastdate, posts.userId, posts.valid, users.username AS userUsername, COUNT(comments.valid) AS numberCommentsNotValid FROM posts INNER JOIN comments ON posts.id = comments.postId INNER JOIN users ON posts.userId = users.id WHERE comments.valid = 0 AND posts.valid = 1 GROUP BY posts.id';
+        $stmt = 'SELECT posts.id, posts.title, posts.standfirst, posts.content, posts.lastdate, posts.userId, posts.valid, posts.author, COUNT(comments.valid) AS numberCommentsNotValid FROM posts INNER JOIN comments ON posts.id = comments.postId INNER JOIN users ON posts.userId = users.id WHERE comments.valid = 0 AND posts.valid = 1 GROUP BY posts.id';
         $req = $this->db->prepare($stmt);
         if ($req->execute()) {
             $results = $req->fetchAll(PDO::FETCH_CLASS, Post::class);
@@ -36,7 +36,7 @@ class PostRepository extends AbstractRepository
      */
     public function listPostsByCommentsNotValidByLimit($limit, $offset)
     {
-        $stmt = 'SELECT posts.id AS postId, posts.title AS postTitle, posts.standfirst AS postStandfirst, posts.content AS postContent, posts.lastdate AS postLastdate, posts.userId AS postUserId, posts.valid AS postValid, users.username AS userUsername, comments.id AS commentId, comments.postId AS commentPostId, COUNT(comments.valid) AS validation FROM posts INNER JOIN comments ON posts.id = comments.postId INNER JOIN users ON posts.userId = users.id WHERE comments.valid = 0 AND posts.valid = 1 GROUP BY posts.id';
+        $stmt = 'SELECT posts.id, posts.title, posts.standfirst, posts.content, posts.lastdate, posts.userId, posts.valid, posts.author, COUNT(comments.valid) AS numberCommentsNotValid FROM posts INNER JOIN comments ON posts.id = comments.postId INNER JOIN users ON posts.userId = users.id WHERE comments.valid = 0 AND posts.valid = 1 GROUP BY posts.id';
         $req = $this->db->prepare($stmt);
         $req->bindParam(1, $limit, PDO::PARAM_INT);
         $req->bindParam(2, $offset, PDO::PARAM_INT);
@@ -157,11 +157,12 @@ class PostRepository extends AbstractRepository
         }
     }
 
-    public function insertPost($title, $standfirst, $content, $date, $userId)
+    public function insertPost($title, $author, $standfirst, $content, $date, $userId)
     {
-        $stmt = 'INSERT INTO posts (title, standfirst, content, lastdate, userId) VALUES (:title, :standfirst, :content, :lastdate, :userid)';
+        $stmt = 'INSERT INTO posts (title, author, standfirst, content, lastdate, userId) VALUES (:title, :author, :standfirst, :content, :lastdate, :userid)';
         $req = $this->db->prepare($stmt);
         $req->bindParam(':title', $title, PDO::PARAM_STR);
+        $req->bindParam(':author', $author, PDO::PARAM_STR);
         $req->bindParam(':standfirst', $standfirst, PDO::PARAM_STR);
         $req->bindParam(':content', $content, PDO::PARAM_STR);
         $req->bindParam(':lastdate', $date, PDO::PARAM_STR);

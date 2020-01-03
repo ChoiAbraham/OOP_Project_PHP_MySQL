@@ -38,6 +38,9 @@ class PostValidator extends Validator
             'title_post' => array(
                 'required' => true
             ),
+            'author_post' => array(
+                'required' => true
+            ),
             'standfirst_post' => array(
                 'required' => false
             ),
@@ -49,8 +52,8 @@ class PostValidator extends Validator
         if ($validate->getPass()) {
             $jour = date("Y-m-d H:i:s");
 
-            $user = $this->postRepository;
-            $user->insertPost(Input::get('title_post'), Input::get('standfirst_post'), Input::get('content_post'), $jour, $id);
+            $post = $this->postRepository;
+            $post->insertPost(Input::get('title_post'), Input::get('author_post'), Input::get('standfirst_post'), Input::get('content_post'), $jour, $id);
 
             Session::flash('PostSuccess', 'Your Post is being reviewed and will be confirmed by admin');
             $this->redirect('postlist');
@@ -89,6 +92,7 @@ class PostValidator extends Validator
             $post = $this->postRepository;
             $post->updatePostById($id, array(
                 'title' => Input::get('title_post'),
+                'author' => Input::get('author_post'),
                 'standfirst' => Input::get('standfirst_post'),
                 'content' => Input::get('content_post'),
                 'lastdate' => $jour

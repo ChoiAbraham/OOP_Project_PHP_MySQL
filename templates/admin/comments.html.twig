@@ -38,12 +38,12 @@
                 <tbody>
                   {% for post in posts %}
                   <tr>
-                    <td>{{ post.postTitle }}</td>
-                    <td>{{ post.userUsername }}</td>
-                    <td>{{ post.postLastdate }}</td>
-                    <td>{{ post.validation }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.author }}</td>
+                    <td>{{ post.lastdate }}</td>
+                    <td>{{ post.numberCommentsNotValid }}</td>
                     <td style="width:140px">
-                      <a href="admin/show/{{ post.postId }}" class="btn btn-success" data-target="#update">
+                      <a href="admin/show/{{ post.id }}" class="btn btn-success" data-target="#update">
                           Go to Article
                       </a>
                     </td>

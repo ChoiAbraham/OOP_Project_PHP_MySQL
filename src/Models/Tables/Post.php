@@ -11,10 +11,20 @@ class Post
     private $userId;
     private $lastdate;
     private $url;
+    private $valid;
     private $key;
+    private $author;
 
-    //username
-    private $userUsername;
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
 
     //Number of new comments
     private $numberCommentsNotValid;
@@ -33,6 +43,17 @@ class Post
     {
         $this->url = 'postlist/show/' . $this->id;
     }
+
+    public function getValid()
+    {
+        return $this->valid;
+    }
+
+    public function setValid($valid)
+    {
+        $this->valid = $valid;
+    }
+
 
     /**
      * GETTERS
