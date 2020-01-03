@@ -11,6 +11,3 @@ $methodToCall = $_POST['ajaxmethod'];
 $app = App::getInstance();
 
 AjaxManager::getInstance($methodToCall, $app);
-
-
-
