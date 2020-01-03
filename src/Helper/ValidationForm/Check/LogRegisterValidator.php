@@ -3,7 +3,6 @@
 namespace App\Helper\ValidationForm\Check;
 
 use App\Application\Config;
-
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
 use App\Helper\ValidationForm\Hash;

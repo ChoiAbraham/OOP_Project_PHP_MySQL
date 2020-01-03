@@ -201,7 +201,7 @@ class UserRepository extends AbstractRepository
         return false;
     }
 
-    public function update($firstname = '', $lastname = '', $email = '', $userId)
+    public function update($firstname = '', $lastname = '', $email = '', $userId = '')
     {
         $stmt = 'UPDATE users SET firstname = :firstname, lastname = :lastname, email = :email WHERE id=:userid';
         $req = $this->db->prepare($stmt);

@@ -20,7 +20,7 @@ class Profil extends Controller
 
     public function __construct()
     {
-        $this->profilValidator = new ProfilValidator;
+        $this->profilValidator = new ProfilValidator();
     }
 
     public function index()

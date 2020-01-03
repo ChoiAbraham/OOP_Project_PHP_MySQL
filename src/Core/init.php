@@ -2,7 +2,6 @@
 
 use App\Application\Config;
 use App\Repository\sessionRepository;
-
 use App\Helper\ValidationForm\Cookie;
 use App\Helper\ValidationForm\Session;
 use App\Helper\ValidationForm\Login\AbstractLogin;

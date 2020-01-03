@@ -5,7 +5,6 @@ namespace App\Helper\ValidationForm\Check;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Check\Validator;
 
-
 /**
  * Check Form Input (syntax, min and max length etc.)
  * @return array errors
