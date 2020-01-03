@@ -10,5 +10,7 @@ use App\Core\App;
 $app = App::getInstance();
 
 $url = $app->getController();
+
 $response = $app->getMethod($url);
+
 echo $response;

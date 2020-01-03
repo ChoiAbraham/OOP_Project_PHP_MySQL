@@ -70,8 +70,12 @@
                 <h3><a href='{{ post.url }}'>{{ post.title }}</a></h3>
                     <p>{{ post.standfirst }}</p>
 
+                    <p>Author : {{ post. author }}</p>
                     <span><a href="{{ post.url }}">Voir la suite</a></span>
-                    <div class="pull-right"><span class="badge">Posted {{ post.lastdate }}</span></div>
+                    <div class="pull-right"></div>
+                    <div class="pull-right">
+                        <span class="badge">Posted {{ post.lastdate }}</span>
+                    </div>
                 </div>
                 {% endif %}
             {% endfor %}
