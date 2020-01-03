@@ -23,6 +23,12 @@ class LoginUser extends AbstractLogin
             if ($this->data->getPassword() === Hash::make($password, $this->data->getSalt())) {
                 Session::put($this->sessionName, $this->data->getId());
 
+                if (Session::exists('role')) {
+                        Session::delete('role');
+                }
+
+                Session::put('role', $this->data->getRole());
+
                 //if User has clicked on "remember-me"
                 if ($remember) {
                     //User ID

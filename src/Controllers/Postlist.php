@@ -60,7 +60,6 @@ class Postlist extends Controller
         return $response;
     }
 
-
     /**
      * show one Post and its comments
      * @param int $id userId
@@ -104,6 +103,8 @@ class Postlist extends Controller
      */
     public function create($id = '')
     {
+        $this->userOnly();
+
         $profil = new PostValidator();
         $token = $profil->checkToken();
         $errors = $profil->inputPost('validateFormPost', $id);
@@ -129,6 +130,8 @@ class Postlist extends Controller
      */
     public function update($id = '')
     {
+        $this->userOnly();
+
         $post = $this->postRepository->findById($id);
 
         if ($post === false) {
@@ -156,11 +159,13 @@ class Postlist extends Controller
     }
 
     /**
-     * list All User Posts
+     * list All posts of an User
      * @param  string $id userId
      */
     public function myPost($id = '')
     {
+        $this->userOnly();
+
         $myPosts = $this->postRepository->findByUserId($id);
 
         if ($myPosts === false) {

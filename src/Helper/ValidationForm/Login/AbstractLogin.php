@@ -82,8 +82,8 @@ class AbstractLogin extends RepositoryFactory
      */
     public function logout($id = '')
     {
-        if (Session::exists('auth')) {
-            Session::delete('auth');
+        if (Session::exists('role')) {
+            Session::delete('role');
         } elseif (Session::exists($this->sessionName)) {
             $id = Session::get($this->sessionName);
             $this->sessionRepository->deleteHashByUserId($id);

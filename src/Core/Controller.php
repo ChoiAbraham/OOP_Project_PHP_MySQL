@@ -57,7 +57,23 @@ class Controller extends RepositoryFactory
      */
     public function adminOnly()
     {
-        if (!Session::exists('auth')) {
+        if (!Session::exists('role')) {
+            $this->notFound();
+        } elseif (Session::get('role') != 'admin') {
+            $this->notFound();
+        }
+    }
+
+    /**
+     * user interface accessibility (admin can also be an user)
+     */
+    public function userOnly()
+    {
+        if (!Session::exists('role')) {
+            $this->notFound();
+        } elseif (Session::get('role') === 'user' || Session::get('role') === 'admin') {
+            return;
+        } else {
             $this->notFound();
         }
     }
