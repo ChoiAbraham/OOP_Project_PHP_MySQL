@@ -49,7 +49,7 @@ class LogRegisterValidator extends Validator
             $remember = Input::get('remember') === 'on' ? true : false;
 
             $login = $this->loginUser->login($remember, Input::get('username'), Input::get('password'));
-            // $this->log->setIsLoggedIn();
+            $this->loginUser->setIsLoggedIn();
 
             if ($login) {
                 Session::flash('success', 'You Logged-in successfully!');

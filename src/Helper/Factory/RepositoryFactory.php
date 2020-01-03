@@ -17,24 +17,18 @@ class RepositoryFactory
     protected $postRepository;
     protected $commentRepository;
     protected $userRepository;
+    protected $sessionRepository;
     protected $countRepository;
 
-    private $repositoryFactory;
+    protected $repositoryFactory;
 
     public function __construct()
     {
         $this->repositoryFactory = App::getInstance();
-        if (!isset($this->postRepository)) {
-            $this->postRepository = $this->repositoryFactory->getRepository('post');
-        }
-        if (!isset($this->commentRepository)) {
-            $this->commentRepository = $this->repositoryFactory->getRepository('comment');
-        }
-        if (!isset($this->userRepository)) {
-            $this->userRepository = $this->repositoryFactory->getRepository('user');
-        }
-        if (!isset($this->countRepository)) {
-            $this->countRepository = $this->repositoryFactory->getRepository('Count');
-        }
+        $this->postRepository = $this->repositoryFactory->getRepository('post');
+        $this->commentRepository = $this->repositoryFactory->getRepository('comment');
+        $this->userRepository = $this->repositoryFactory->getRepository('user');
+        $this->countRepository = $this->repositoryFactory->getRepository('Count');
+        $this->sessionRepository = $this->repositoryFactory->getRepository('session');
     }
 }

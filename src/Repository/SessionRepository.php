@@ -28,7 +28,7 @@ class SessionRepository extends AbstractRepository
         }
     }
 
-    public function insertHash($hash, $userId)
+    public function insertHashSession($hash, $userId)
     {
         $stmt = 'INSERT INTO users_session (hash, userId) VALUES (:hash, :userid)';
         $req = $this->db->prepare($stmt);
