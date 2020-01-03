@@ -3,6 +3,7 @@
 namespace App\Helper\ValidationForm\Login;
 
 use App\Core\App;
+use App\Helper\Factory\RepositoryFactory;
 use App\Repository\UserRepository;
 use App\Repository\SessionRepository;
 use App\Application\Config;
@@ -13,23 +14,41 @@ use App\Helper\ValidationForm\Cookie;
 /**
  * Abstract Class for login Admin and login User
  */
-class AbstractLogin
+class AbstractLogin extends RepositoryFactory
 {
-    private $userRepository;
-    private $sessionRepository;
-    private $sessionName;
-    private $cookieName;
-    private $data;
-    private $factoryRepository;
+    protected $sessionName;
+    protected $cookieName;
+    protected $data;
 
     public function __construct()
     {
-        $this->factoryRepository = App::getInstance();
+        parent::__construct();
 
         $this->sessionName = Config::get('session/session_name');
         $this->cookieName = Config::get('remember/cookie_name');
-        $this->userRepository = $this->factoryRepository->getRepository('user');
-        $this->sessionRepository = $this->factoryRepository->getRepository('session');
+    }
+
+    /**
+     * if Cookie exists (user has checked remember-me and it created a cookie), and also the Session doesn't exist
+     * then log-in the user automatically
+     * else if Cookie/session doesn't exist, logout (just in case)
+     */
+    public function rememberMe()
+    {
+        if (Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))) {
+            //get the hash from the Cookie
+            $hash = Cookie::get(Config::get('remember/cookie_name'));
+            //get the hash from the database
+            $hashCheck = $this->sessionRepository->findHash($hash);
+
+            //if hash matches, log in the user
+            if ($hashCheck) {
+                $log = new LoginUser();
+                $log->setIsLoggedIn($hashCheck->getUserId());
+            }
+        } elseif (!Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))) {
+            $this->logout();
+        }
     }
 
     /**
@@ -37,12 +56,12 @@ class AbstractLogin
      * @param [int] $userId
      * @return  Object User data user
      */
-    public function setIsLoggedIn($userId = null)
+    public function setIsLoggedIn($userId = '')
     {
+        //if the userID is not specified (default userID) we get the userId stored in the $_SESSION['user']
         if (!$userId) {
             if (Session::exists($this->sessionName)) {
                 $id = Session::get($this->sessionName);
-
                 $this->data = $this->userRepository->findById($id);
             }
         } else {

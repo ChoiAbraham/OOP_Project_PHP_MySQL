@@ -15,23 +15,6 @@ use App\Helper\Mailer\Message;
 
 class LoginUser extends AbstractLogin
 {
-    private $userRepository;
-    private $sessionRepository;
-    private $sessionName;
-    private $cookieName;
-    private $data;
-    private $factoryRepository;
-
-    public function __construct()
-    {
-        $this->factoryRepository = App::getInstance();
-
-        $this->sessionName = Config::get('session/session_name');
-        $this->cookieName = Config::get('remember/cookie_name');
-        $this->userRepository = $this->factoryRepository->getRepository('user');
-        $this->sessionRepository = $this->factoryRepository->getRepository('session');
-    }
-
     public function login($remember, $username = null, $password = null)
     {
         $this->data = $this->userRepository->findByUsername($username);
@@ -40,17 +23,25 @@ class LoginUser extends AbstractLogin
             if ($this->data->getPassword() === Hash::make($password, $this->data->getSalt())) {
                 Session::put($this->sessionName, $this->data->getId());
 
+                //if User has clicked on "remember-me"
                 if ($remember) {
+                    //User ID
                     $id = $this->data->getId();
+
+                    //check if hash exist for the user
                     $hashCheck = $this->sessionRepository->findByUserId($id);
 
+                    //if not we create one and insert it
+                    //if yes we retrieve it
                     if (!$hashCheck) {
                         $hash = hash('sha256', uniqid());
-                        $this->sessionRepository->insertHash($hash, $id);
+                        $this->sessionRepository->insertHashSession($hash, $id);
                     } else {
                         $hash = $hashCheck->getHash();
                     }
 
+                    //create cookie with hash
+                    //only in logout the cookie will be deleted
                     Cookie::put($this->cookieName, $hash, Config::get('remember/cookie_expiry'));
                 }
 
@@ -59,15 +50,4 @@ class LoginUser extends AbstractLogin
             return false;
         }
     }
-
-    /*
-    public static function getInstance()
-    {
-        if (!self::$instance) {
-            self::$instance = new Login;
-        }
-
-        return self::$instance;
-    }
-    */
 }

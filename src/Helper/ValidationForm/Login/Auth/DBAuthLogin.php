@@ -16,23 +16,6 @@ use App\Helper\ValidationForm\Cookie;
  */
 class DBAuthLogin extends AbstractLogin
 {
-    private $userRepository;
-    private $sessionRepository;
-    private $sessionName;
-    private $cookieName;
-    private $data;
-    private $factoryRepository;
-
-    public function __construct()
-    {
-        $this->factoryRepository = App::getInstance();
-
-        $this->sessionName = Config::get('session/session_name');
-        $this->cookieName = Config::get('remember/cookie_name');
-        $this->userRepository = $this->factoryRepository->getRepository('user');
-        $this->sessionRepository = $this->factoryRepository->getRepository('session');
-    }
-
     public function loginAdmin($remember, $username = null, $password = null)
     {
         $this->data = $this->userRepository->findByUsername($username);
@@ -50,7 +33,7 @@ class DBAuthLogin extends AbstractLogin
 
                         if (!$hashCheck) {
                             $hash = hash('sha256', uniqid());
-                            $this->sessionRepository->insertHash($hash, $id);
+                            $this->sessionRepository->insertHashSession($hash, $id);
                         } else {
                             $hash = $hashCheck->getHash();
                         }

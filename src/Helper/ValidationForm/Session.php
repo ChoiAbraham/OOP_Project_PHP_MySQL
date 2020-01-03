@@ -26,6 +26,16 @@ class Session
     }
 
     /*
+
+    public static function sessionStart()
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    }
+     */
+
+    /*
      * return session and remove it so next time it won't run.
      * echo $string but won't by refreshing the page
      * flashing/flash a message (just appear once)
