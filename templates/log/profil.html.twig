@@ -1,0 +1,32 @@
+{% extends 'default.html.twig' %}
+
+{% block body %}
+
+{% if user %}
+
+
+<section>
+
+    <div class="container">
+        <div class="row paragraphe">
+        {% if message %}
+            <div class="p-b-20">{{ message }}</div>
+        {% endif %}
+        {% if messageregister %}
+            <div class="p-b-20">{{ messageregister }}</div>
+        {% endif %}
+
+      		<p>hello {{ user.username }}</p>
+      		<ul>
+      			<li><a href="/logregister/logout/{{ user.id }}">Log out</a></li>
+      			<li><a href="/profil/update/{{ user.id }}">Update Information</a></li>
+      			<li><a href="/profil/change/{{ user.id }}">Change Password</a></li>
+      		</ul>
+
+
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

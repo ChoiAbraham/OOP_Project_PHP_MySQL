@@ -1,0 +1,168 @@
+{% embed 'defaultAdmin.html.twig' %}
+
+{% block body %}
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="admin/dashboard">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Articles</li>
+        </ol>
+
+        <form action="" method="POST">
+
+            <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0"></legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios1" value="option1" {% if option == 1 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios1">
+                        By Validation (Default)
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios2" value="option2" {% if option == 2 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios2">
+                        By Username
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios1" value="option3" {% if option == 3 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios1">
+                        By Date
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="col-sm-10 mt-3">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </fieldset>
+
+          </div>
+
+        </form>
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Articles Table</div>
+            <div class="paragraphe">
+                <p id="response"></p>
+            </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Titre</th>
+                    <th>Date</th>
+                    <th>Validation</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Username</th>
+                    <th>Titre</th>
+                    <th>Date</th>
+                    <th>Validation</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% set i = 1 %}
+                  {% for post in posts %}
+                  <input type="hidden" id="postid{{ i }}" value="{{ post.id }}" name="" />
+                  <input type="hidden" class="rownumber" value="" name="" />
+                  <tr class="paragraphe" id="shadow{{ i }}">
+                    <td>{{ post.username }}</td>
+                    <td>
+                      {{ post.title }}
+                    </td>
+                    <td>{{ post.lastdate }}</td>
+                    {% if post.valid == 0 %}
+                    <td>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#approve{{ i }}">Waiting...</button>
+                    </td>
+                    {% else %}
+                    <td>
+                        <button type="button" class="btn btn-success" disabled>Approved</button>
+                    </td>
+                    {% endif %}
+                    <td style="width:140px">
+                      <a href="admin/show/{{ post.id }}" class="btn btn-success" data-target="#update">
+                          Go to Article
+                      </a>
+                    </td>
+                    <td style="width:150px">
+                      <button type="button"class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#delete{{ i }}">
+                          Delete Article
+                      </button>
+                    </td>
+                  </tr>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Delete Article</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure to delete this Article?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" id="deletepost{{ i }}" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="modal fade" id="approve{{ i }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Validation Article</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure to approve this Article?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" id="approvearticle{{ i }}" class="btn btn-warning" data-dismiss="modal">Approve</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% set i = i + 1 %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+{{ block("pagination", "blocks.html.twig") }}
+
+{% endblock %}
+
+{% block ajax %}
+    <script src="js/ajax/approvearticleontable.js"></script>
+    <script src="js/ajax/deletepostontable.js"></script>
+
+{% endblock %}
+
+{% endembed %}
+

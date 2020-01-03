@@ -1,0 +1,136 @@
+{% extends 'defaultAdmin.html.twig' %}
+
+{% block body %}
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="admin/dashboard">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Admin</li>
+        </ol>
+
+        <form action="" method="POST">
+
+            <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0"></legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios1" value="option1" {% if option == 1 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios1">
+                        By Date (Default)
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios2" value="option2" {% if option == 2 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios2">
+                        By Alphabet
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="col-sm-10 mt-3">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+            </fieldset>
+
+          </div>
+
+        </form>
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Users Table</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Joined</th>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Joined</th>
+                    <th>Role</th>
+
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% for user in users %}
+                  <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.joined }}</td>
+                    <td>{{ user.role }}</td>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Update Role
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete this user?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        {{ block("pagination", "blocks.html.twig") }}
+
+{% endblock %}

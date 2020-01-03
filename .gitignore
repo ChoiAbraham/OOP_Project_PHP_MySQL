@@ -1,0 +1,5 @@
+vendor/
+.phpcs-cache
+src/Application/database.php
+src/Application/mail.php
+

@@ -1,0 +1,34 @@
+{% block pagination %}
+
+    <div class="small text-center my-5">
+      <ul class="pagination">
+        {% set previouspage = currentpage - 1 %}
+        {% if currentpage == 1 %}
+        <li class="page-item disabled">
+          <a class="page-link" tabindex="-1">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="{{ link }}/{{ previouspage }}" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+
+        {% for i in arraypage %}
+            {% if i == currentpage %}
+        <li class="page-item active"><a class="page-link" href="{{ link }}/{{ i }}">{{ i }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{{ link }}/{{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% set nextpage = currentpage + 1 %}
+        {% if currentpage == pagenumber %}
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="{{ link }}/{{ nextpage }}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+
+{% endblock %}

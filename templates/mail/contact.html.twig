@@ -1,0 +1,11 @@
+{% extends 'defaultEmail.html.twig' %}
+
+{% block content %}
+
+    <p>Someone sent you an email from your contact form of your website : MyBlog</p>
+    <p>From : {{ name }}</p>
+    <p>Email : {{ email }}</p>
+    <p>Phone : {{ phone }}</p>
+    <p>{{ message }}</p>
+
+{% endblock %}

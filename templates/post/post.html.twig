@@ -1,0 +1,102 @@
+{% embed 'default.html.twig' %}
+
+    {% block nav %}
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                {% if user %}
+                    <a class="navbar-brand" href="/home/index">Hello {{ user.username }}</a>
+                {% else %}
+                <a class="navbar-brand" href="/home/index">Blog</a>
+                {% endif %}
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    {% if user %}
+                    <li>
+                        <a href="/postlist">Blog Posts</a>
+                    </li>
+                    <li>
+                        <a href="/profil/index">Profil</a>
+                    </li>
+                    {% else %}
+                    <li class="page-scroll">
+                        <a href="/home/index#portfolio">Portfolio</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="/home/index#about">About</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="/home/index#contact">Contact</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-scroll">
+                        {% if user %}
+                            <a href="/logregister/logout/{{ user.id }}">Log Out</a>
+                        {% else %}
+                            <a href="/logregister/login">Log in</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    {% endblock %}
+
+{% block body %}
+<section>
+
+<div class="container">
+    <div class="row">
+        {% if user %}
+        <div class="col-md-8">
+        {% else %}
+        <div class="col-md-12">
+            {% endif %}
+            <h4>{{ message }}</h4>
+            {% for post in posts %}
+                {% if post.valid == 1 %}
+                <div class="paragraphe">
+
+                <h3><a href='{{ post.url }}'>{{ post.title }}</a></h3>
+                    <p>{{ post.standfirst }}</p>
+
+                    <span><a href="{{ post.url }}">Voir la suite</a></span>
+                    <div class="pull-right"><span class="badge">Posted {{ post.lastdate }}</span></div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+            <hr>
+
+        {% if user %}
+        <div class="col-md-2 offset-md-2">
+              <h3>POST</h3>
+              <ul>
+                <li><a href="/profil">Profil</a></li>
+                <li><a href="/postlist/create/{{user.id}}">Create a Post</a></li>
+                <li><a href="/postlist/mypost/{{user.id}}">See your Posts</a></li>
+              </ul>
+        </div>
+        {% endif %}
+
+        </div>
+      </div>
+
+</section>
+
+{{ block("pagination", "blocks.html.twig") }}
+
+{% endblock %}
+
+{% endembed %}
+

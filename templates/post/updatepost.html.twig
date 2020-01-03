@@ -1,0 +1,41 @@
+{% extends 'default.html.twig' %}
+
+{% block body %}
+
+<section>
+
+    {% if user %}
+    <div class="container">
+        <div class="row">
+            <h3>UPDATE YOUR POST</h3>
+            <form action="" method="POST">
+              <div class="form-group">
+                <label for="title_post">Title</label>
+                <input type="text" class="form-control" name="title_post" id="title_post" value="{{ post.title }}">
+              </div>
+
+              <div class="form-group">
+                <label for="standfirst_post">Standfirst</label>
+                <textarea class="form-control" name="standfirst_post" rows="4">{{ post.standfirst }}</textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="content_post">Content</label>
+                <textarea class="form-control" name="content_post" rows="20">{{ post.content }}</textarea>
+              </div>
+              <input type="hidden" name="token" value="{{ token }}">
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            {% for err in error %}
+                {{ err }}</br>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {% endif %}
+</section>
+
+{% endblock %}

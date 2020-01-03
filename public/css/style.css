@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,100italic,300italic");
+
+body{
+}
+body, input, select, textarea {
+        font-family: "Roboto", Helvetica, sans-serif;
+}
+
+/*             display: block;
+position: absolute;
+left: 0;
+top: 0;
+ */
+header{
+    background-image: url("../images/bg.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
+h1{
+  text-align: center;
+}
+
+/****** ?p=postlist.show&id=1 ********/
+.paragraphe{
+    padding : 20px;
+    margin-top:30px;
+}
+
+.comment-wrapper .panel-body {
+    max-height:2000px;
+    overflow:auto;
+}
+
+.comment-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+}
+
+.comment-wrapper .media-list .media {
+    border-bottom:1px dashed #efefef;
+    margin-bottom:25px;
+}
