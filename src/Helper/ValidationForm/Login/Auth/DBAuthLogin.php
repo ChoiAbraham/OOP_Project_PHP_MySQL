@@ -25,7 +25,12 @@ class DBAuthLogin extends AbstractLogin
             if ($bool) {
                 if ($this->data->getPassword() === Hash::make($password, $this->data->getSalt())) {
                     Session::put($this->sessionName, $this->data->getId());
-                    Session::put('auth', $this->data->getId());
+
+                    if (Session::exists('role')) {
+                        Session::delete('role');
+                    }
+
+                    Session::put('role', $bool);
 
                     if ($remember) {
                         $id = $this->data->getId();

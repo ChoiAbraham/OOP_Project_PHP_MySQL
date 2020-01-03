@@ -25,6 +25,8 @@ class Profil extends Controller
 
     public function index()
     {
+        $this->userOnly();
+
         if (Session::exists('updateSuccess')) {
             $message = Session::get('updateSuccess');
             Session::delete('updateSuccess');
@@ -51,6 +53,8 @@ class Profil extends Controller
 
     public function update($id = '')
     {
+        $this->userOnly();
+
         $token = $this->profilValidator->checkToken();
         $profil->csrfInput('validateUpdate', $id);
 
@@ -66,8 +70,10 @@ class Profil extends Controller
     /**
      * change password
      */
-    public function change($id)
+    public function change($id = '')
     {
+        $this->userOnly();
+
         $token = $this->profilValidator->checkToken();
         $profil->csrfInput('validatePassword', $id);
 
@@ -90,6 +96,8 @@ class Profil extends Controller
      */
     public function reset()
     {
+        $this->userOnly();
+
         $token = $this->profilValidator->checkToken();
         $errors = $profil->csrfInput('sendEmailForResetPassword');
         $request = Input::get('email');
@@ -115,6 +123,8 @@ class Profil extends Controller
      */
     public function newpass($id)
     {
+        $this->userOnly();
+
         /*
 
         if (Session::exists('updateSuccess')) {
