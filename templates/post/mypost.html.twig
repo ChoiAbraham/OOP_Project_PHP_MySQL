@@ -1,0 +1,146 @@
+{% embed 'default.html.twig' %}
+
+    {% block nav %}
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                {% if user %}
+                    <a class="navbar-brand" href="/home/index">Hello {{ user.username }}</a>
+                {% else %}
+                <a class="navbar-brand" href="/home/index">Blog</a>
+                {% endif %}
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    {% if user %}
+                    <li>
+                        <a href="/postlist">Blog Posts</a>
+                    </li>
+                    <li>
+                        <a href="/profil/index">Profil</a>
+                    </li>
+                    {% else %}
+                    <li class="page-scroll">
+                        <a href="/home/index#portfolio">Portfolio</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="/home/index#about">About</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="/home/index#contact">Contact</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-scroll">
+                        {% if user %}
+                            <a href="/logregister/logout/{{ user.id }}">Log Out</a>
+                        {% else %}
+                            <a href="/logregister/login">Log in</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    {% endblock %}
+
+{% block body %}
+<section>
+
+<div class="container">
+    <div class="row">
+        {% if user %}
+        <div class="col-md-8">
+        {% else %}
+        <div class="col-md-12">
+        {% endif %}
+        {% if mypost %}
+            <h4>{{ message }}</h4>
+                    <p id="response"></p>
+            {% for post in mypost %}
+                <div class="paragraphe shadow{{ post.id }}">
+                <input type="hidden" id="shadow" value="shadow{{ post.id }}" name="" />
+
+                <h3>
+                  <a href='{{ post.url }}'>{{ post.title }}</a>
+                  <div class="pull-right">
+                    <span>
+                      <a type="button" href="/postlist/update/{{ post.id }}" class="btn btn-success" lt="Max-width 100%">Update</a>
+                    </span>
+                    <span>
+                    <input type="hidden" id="postid" value="{{ post.id }}" name="" />
+                      <button type="button"class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#delete">Delete</button>
+                    </span>
+                  </div>
+                </h3>
+
+                    {% if post.valid == 0 %}
+                    <p>Not Confirmed By Admin Yet</p>
+                    {% else %}
+                    <p>{{ post.standfirst }}</p>
+                    {% endif %}
+                      </a>
+
+                    <span><a href="{{ post.url }}">Voir la suite</a></span>
+                    <div class="pull-right"><span class="badge">Posted {{ post.lastdate }}</span></div>
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="paragraphe">No Post Created Yet</div>
+        {% endif %}
+        </div>
+            <hr>
+
+        {% if user %}
+        <div class="col-md-2 offset-md-2">
+              <h3>POST</h3>
+              <ul>
+                <li><a href="profil">Profil</a></li>
+                <li><a href="/postlist/create/{{user.id}}">Create a Post</a></li>
+                <li><a href="/postlist/mypost/{{user.id}}">See your Posts</a></li>
+              </ul>
+        </div>
+        {% endif %}
+
+        </div>
+      </div>
+
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete this Article?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="deletepost" class="btn btn-danger" data-dismiss="modal">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block ajax %}
+    <script src="js/ajax/deletepost.js"></script>
+{% endblock %}
+
+{% endembed %}
+

@@ -1,0 +1,200 @@
+{% embed 'defaultAdmin.html.twig' %}
+
+{% block body %}
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="admin/dashboard">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Article</li>
+        </ol>
+
+        <div class="paragraphe">
+                <p id="response"></p>
+        </div>
+
+        <div class="container paragraphe shadow{{ post.id }}">
+        <input type="hidden" id="shadow" value="shadow{{ post.id }}" name="" />
+            <div class="row">
+                <div class="col-sm-1">
+                    <a href="javascript:history.back()"><i class="far fa-caret-square-left fa-3x"></i></a>
+                </div>
+                <div class="col-sm-11">
+                    <h2 class="h1-responsive font-weight-bold">{{ post.title }}</h2>
+                    <p>
+                        {{ post.standfirst }}
+                    </p>
+                    <p>
+                        {{ post.content }}
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <input type="hidden" id="postid" value="{{ post.id }}" name="" />
+
+        {% if comments %}
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Comments Table</div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Content</th>
+                    <th>Date</th>
+                    <th>Validation</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Username</th>
+                    <th>Content</th>
+                    <th>Date</th>
+                    <th>Validation</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% set i = 1 %}
+
+                  {% for com in comments %}
+                  <input type="hidden" class="rownumber" value="" name="" />
+                  <input type="hidden" id="commentid{{ i }}" value="{{ com.id }}" name="" />
+
+                  <tr id="shadowdelete{{ i }}">
+                    <td>{{ com.username }}</td>
+                    <td>{{ com.content }}</td>
+                    <td>{{ com.commentDate|date("F jS Y \\a\\t g:ia") }}</td>
+                    {% if com.valid == 1 %}
+
+                    <td style="width:140px">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch{{ i }}" id="changecommentvalid" checked>
+
+                        <label class="custom-control-label" for="customSwitch{{ i }}"></label>
+                      </div>
+                    </td>
+                    {% else %}
+
+                    <td style="width:140px">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch{{ i }}">
+
+                        <label class="custom-control-label" for="customSwitch{{ i }}"></label>
+                      </div>
+                    </td>
+                    {% endif %}
+                    <td style="width:40px">
+                      <button type="button"class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#delete{{ i }}">
+                      <i class="fas fa-times"></i>
+                     </button>
+                    </td>
+                  </tr>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure to delete this Comment?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" id="deletecomment{{ i }}"" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% set i = i + 1 %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+
+
+<div class="modal fade" id="approve" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Validation Article</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to approve this Article?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="approvearticle" class="btn btn-warning" data-dismiss="modal">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-5 shadow{{ post.id }}">
+    <div class="row justify-content-md-center">
+
+        {% if post.valid == 0 %}
+        <div class="col-sm-2">
+             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#approve">Approve Article
+             </button>
+        </div>
+        {% endif %}
+
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#deleteArticle">
+              Delete Article
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="deleteArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete this Comment?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="deletepost" class="btn btn-danger" data-dismiss="modal">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block ajax %}
+    <script src="js/ajax/approvearticle.js"></script>
+    <script src="js/ajax/changecommentvalid.js"></script>
+    <script src="js/ajax/deletepost.js"></script>
+    <script src="js/ajax/deletecommentontable.js"></script>
+{% endblock %}
+
+{% endembed %}

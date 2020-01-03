@@ -1,0 +1,215 @@
+{% embed 'defaultAdmin.html.twig' %}
+
+{% block body %}
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="admin/dashboard">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Users</li>
+        </ol>
+
+        <form action="" method="POST">
+
+            <fieldset class="form-group">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0"></legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios1" value="option1" {% if option == 1 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios1">
+                        By Date (Default)
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio" id="gridRadios2" value="option2" {% if option == 2 %}checked{% endif %}>
+                      <label class="form-check-label" for="gridRadios2">
+                        By Alphabet
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="col-sm-10 mt-3">
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+            </fieldset>
+          </div>
+
+        </form>
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Users Table</div>
+
+            <div class="paragraphe">
+                <p id="response"></p>
+            </div>
+            <div class="row">
+  <div class="col-sm-9">
+          <div class="card-body pr-0">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Joined</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Joined</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% set i = 1 %}
+                  {% for user in users %}
+                  <input type="hidden" class="rownumber" value="" name="" />
+                  <input type="hidden" id="userid{{ i }}" value="{{ user.id }}" name="" />
+                  <tr id="shadowdelete{{ i }}">
+                    <td style="height: 65px">{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.joined }}</td>
+                  </tr>
+                  {% set i = i + 1 %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+            </div>
+
+  <div class="col-sm-3 pl-0">
+          <div class="card-body pl-0">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable">
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Role</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                  {% set i = 1 %}
+                  {% for userrole in userroletable %}
+                  <tr id="shadowdeletenext{{ i }}">
+                    <td id="shadow{{ i }}" style="height: 65px">{{ userrole }}</td>
+                    <td style="width:180px">
+                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#update{{ i }}">
+                      Update Role
+                      </button>
+                      <button type="button"class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#delete{{ i }}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    </td>
+                  </tr>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure to delete this user? It will also delete his/her posts and comments.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" id="deleteuser{{ i }}" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="update{{ i }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form action="" method="POST">
+                          <div class="modal-body">
+                                  {% if userrole == 'admin' %}
+                              <div class="custom-control custom-radio custom-control-inline">
+                                  <input type="radio" id="adminchecked{{ i }}" name="radioRole" class="custom-control-input" checked>
+                                  <label class="custom-control-label" for="adminchecked{{ i }}">Admin</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+
+                                  <input type="radio" id="userchecked{{ i }}" name="radioRole" class="custom-control-input">
+                                  <label class="custom-control-label" for="userchecked{{ i }}">User</label>
+                              </div>
+
+                                  {% else %}
+
+                              <div class="custom-control custom-radio custom-control-inline">
+                                  <input type="radio" id="adminchecked{{ i }}" name="radioRole" class="custom-control-input">
+                                  <label class="custom-control-label" for="adminchecked{{ i }}">Admin</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                  <input type="radio" id="userchecked{{ i }}" name="radioRole" class="custom-control-input" checked>
+                                  <label class="custom-control-label" for="userchecked{{ i }}">User</label>
+                              </div>
+
+                                  {% endif %}
+                          </div>
+                          <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" id="setroleuser{{ i }}" class="btn btn-success" data-dismiss="modal">Save changes</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                  {% set i = i + 1 %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+
+        </div>
+
+
+
+
+        {{ block("pagination", "blocks.html.twig") }}
+
+{% endblock %}
+
+{% block ajax %}
+    <script src="js/ajax/updateroleuserontable.js"></script>
+    <script src="js/ajax/deleteuserontable.js"></script>
+{% endblock %}
+
+{% endembed %}
+
