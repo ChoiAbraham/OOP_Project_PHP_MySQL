@@ -8,13 +8,11 @@ $(document).ready(function () {
         $("#deletepost" + y).on('click', function () {
             var postid = $('#postid'+y).val();
 
-            var ajaxmethod = 'deletePost';
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/deletepost',
                     method : 'POST',
                     data: {
-                        ajaxmethod: ajaxmethod,
                         postid: postid,
                     },
                     success: function (response) {

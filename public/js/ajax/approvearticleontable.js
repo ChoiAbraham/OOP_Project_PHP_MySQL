@@ -8,14 +8,11 @@ $(document).ready(function () {
         $("#approvearticle" + y).on('click', function () {
             var postid = $('#postid'+y).val();
 
-        var ajaxmethod = 'approveArticle';
-
         $.ajax(
             {
-                url: 'data.php',
+                url: '/ajax/approve',
                 method : 'POST',
                 data: {
-                    ajaxmethod: ajaxmethod,
                     postid: postid,
                 },
                 success: function (response) {

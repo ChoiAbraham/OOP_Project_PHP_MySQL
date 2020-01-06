@@ -1,22 +1,44 @@
 <?php
 
-namespace App\Helper\Ajax;
+namespace App\Controllers;
 
 use App\Core\App;
-use App\Helper\Factory\AjaxRequestFactory;
+use App\Core\Controller;
+
+use App\Helper\Ajax\PostAjaxRequest;
+use App\Helper\Ajax\CommentAjaxRequest;
+use App\Helper\Ajax\UserAjaxRequest;
 
 /**
- * uses AjaxRequest instances
+ * Ajax controller
  */
-class AjaxManager extends AjaxRequestFactory
+class Ajax extends Controller
 {
-    public function __construct($methodToCall, App $app)
+    protected $commentAjaxRequest;
+    protected $userAjaxRequest;
+    protected $postAjaxRequest;
+
+    public function __construct()
     {
-        parent::__construct($app);
-        $this->$methodToCall();
+        $factory = App::getInstance();
+        $this->postAjaxRequest = $factory->getAjaxRequest('post');
+        $this->commentAjaxRequest = $factory->getAjaxRequest('comment');
+        $this->userAjaxRequest = $factory->getAjaxRequest('user');
     }
 
-    public function createComment()
+    /**
+     * admin/show
+     * approve an article
+     */
+    public function approvearticle()
+    {
+        if (isset($_POST['postid'])) {
+            $postId = $_POST['postid'];
+            $response = $this->postAjaxRequest->updatePostToValid($postId);
+        }
+    }
+
+    public function createcomment()
     {
         if (isset($_POST['postid'])) {
             $postId = $_POST['postid'];
@@ -28,7 +50,7 @@ class AjaxManager extends AjaxRequestFactory
         }
     }
 
-    public function changeCommentValid()
+    public function changecommentvalid()
     {
         if (isset($_POST['commentid'])) {
             $commentId = $_POST['commentid'];
@@ -38,7 +60,7 @@ class AjaxManager extends AjaxRequestFactory
         }
     }
 
-    public function deletePost()
+    public function deletepost()
     {
         if (isset($_POST['postid'])) {
             $postId = $_POST['postid'];
@@ -46,7 +68,7 @@ class AjaxManager extends AjaxRequestFactory
         }
     }
 
-    public function deleteComment()
+    public function deletecomment()
     {
         if (isset($_POST['commentid'])) {
             $commentId = $_POST['commentid'];
@@ -54,7 +76,7 @@ class AjaxManager extends AjaxRequestFactory
         }
     }
 
-    public function approveArticle()
+    public function approve()
     {
         if (isset($_POST['postid'])) {
             $postId = $_POST['postid'];
@@ -62,7 +84,7 @@ class AjaxManager extends AjaxRequestFactory
         }
     }
 
-    public function updateRole()
+    public function updaterole()
     {
         if (isset($_POST['userid'])) {
             $userId = $_POST['userid'];
@@ -70,22 +92,11 @@ class AjaxManager extends AjaxRequestFactory
         }
     }
 
-    public function deleteUser()
+    public function deleteuser()
     {
         if (isset($_POST['userid'])) {
             $userId = $_POST['userid'];
             $response = $this->userAjaxRequest->verifyDeleteUser($userId);
         }
-    }
-
-    public static function getInstance($methodToCall, App $app)
-    {
-        $singleAjax;
-
-        if (!isset($singleAjax)) {
-            $singleAjax = new AjaxManager($methodToCall, $app);
-        }
-
-        return $singleAjax;
     }
 }

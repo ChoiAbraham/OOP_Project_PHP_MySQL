@@ -6,11 +6,13 @@ use App\Core\App;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 use App\Helper\Ajax\AbstractAjaxRequest;
+use App\Core\Singleton;
+
 
 /**
  * Manages Posts Ajax-Requests
  */
-class PostAjaxRequest extends AbstractAjaxRequest
+class PostAjaxRequest extends Singleton
 {
     protected $postRepository;
     protected $commentRepository;

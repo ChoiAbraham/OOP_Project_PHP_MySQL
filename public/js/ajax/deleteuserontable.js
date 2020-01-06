@@ -8,14 +8,11 @@ $(document).ready(function () {
         $("#deleteuser" + y).on('click', function () {
             var userid = $('#userid'+y).val();
 
-            var ajaxmethod = 'deleteUser';
-
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/deleteuser',
                     method : 'POST',
                     data: {
-                        ajaxmethod: ajaxmethod,
                         userid: userid,
                     },
                     success: function (response) {

@@ -6,13 +6,13 @@ use App\Core\App;
 use App\Helper\ValidationForm\Check\CommentValidator;
 use App\Repository\CommentRepository;
 use App\Helper\Ajax\AbstractAjaxRequest;
+use App\Core\Singleton;
 
 /**
  * Manages Comments Ajax-Requests
  */
-class CommentAjaxRequest extends AbstractAjaxRequest
+class CommentAjaxRequest extends Singleton
 {
-
     protected $commentRepository;
 
     public function __construct()

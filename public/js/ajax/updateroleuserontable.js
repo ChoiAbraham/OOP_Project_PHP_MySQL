@@ -18,14 +18,11 @@ $(document).ready(function () {
 
             var userid = $('#userid'+y).val();
 
-            var ajaxmethod = 'updateRole';
-
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/updaterole',
                     method : 'POST',
                     data: {
-                        ajaxmethod: ajaxmethod,
                         userid: userid,
                         rolechoosen: rolechoosen
                     },

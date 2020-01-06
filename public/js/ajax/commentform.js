@@ -7,18 +7,16 @@ $(document).ready(function () {
         var postid = $("#postid").val();
         // var shadow = $("#shadow").val();
         var userid = $("#userId").val();
-        var ajaxmethod = 'createComment';
 
         if(content == "")
             alert('Please check your inputs');
         else {
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/createcomment',
                     method : 'POST',
                     data: {
                         submitbutton: 1,
-                        ajaxmethod: ajaxmethod,
                         userid: userid,
                         postid: postid,
                         contentPHP: content

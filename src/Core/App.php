@@ -66,7 +66,7 @@ class App extends Singleton
     public function getMethod($url)
     {
         $object = 'App\\controllers\\' . $this->controller;
-        $this->controller = new $object(static::getInstance());
+        $this->controller = new $object();
 
         if (isset($url[1])) {
             $this->method = $url[1];
@@ -77,7 +77,8 @@ class App extends Singleton
         $this->params = $url ? array_values($url) : [];
 
         if (method_exists($this->controller, $this->method) === false) {
-            $backController = new Controller(static::getInstance());
+
+            $backController = new Controller();
             if ($object === 'App\\controllers\\Admin') {
                 $backController->notFoundAdmin();
             } else {
@@ -132,7 +133,7 @@ class App extends Singleton
     public function getAjaxRequest($name)
     {
         $className = '\\App\\Helper\\Ajax\\' . ucfirst($name) . 'AjaxRequest';
-        return new $className();
+        return $className::getInstance();
     }
 
     /**
@@ -158,7 +159,7 @@ class App extends Singleton
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = new App();
+            self::$instance = new App
         }
 
         return self::$instance;

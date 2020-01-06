@@ -8,14 +8,11 @@ $(document).ready(function () {
         $("#deletecomment" + y).on('click', function () {
             var commentid = $('#commentid'+y).val();
 
-            var ajaxmethod = 'deleteComment';
-
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/deletecomment',
                     method : 'POST',
                     data: {
-                        ajaxmethod: ajaxmethod,
                         commentid: commentid,
                     },
                     success: function (response) {
