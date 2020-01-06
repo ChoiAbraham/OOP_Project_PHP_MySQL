@@ -4,6 +4,7 @@ namespace App\Helper\Ajax;
 
 use App\Core\App;
 use App\Helper\ValidationForm\Check\CommentValidator;
+use App\Repository\CommentRepository;
 use App\Helper\Ajax\AbstractAjaxRequest;
 
 /**
@@ -11,6 +12,15 @@ use App\Helper\Ajax\AbstractAjaxRequest;
  */
 class CommentAjaxRequest extends AbstractAjaxRequest
 {
+
+    protected $commentRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+    }
+
     /**
      * form to create a comment through Ajax call
      * @param int $userId, $postId,

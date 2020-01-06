@@ -2,7 +2,6 @@
 
 namespace App\Helper\ValidationForm\Login\Auth;
 
-use App\Core\App;
 use App\Application\Config;
 use App\Helper\ValidationForm\Login\AbstractLogin;
 use App\Helper\ValidationForm\Session;

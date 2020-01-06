@@ -2,6 +2,7 @@
 
 namespace App\Helper\Ajax;
 
+use App\Core\App;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 use App\Helper\Ajax\AbstractAjaxRequest;
@@ -11,6 +12,16 @@ use App\Helper\Ajax\AbstractAjaxRequest;
  */
 class PostAjaxRequest extends AbstractAjaxRequest
 {
+    protected $postRepository;
+    protected $commentRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+    }
+
     /**
      * delete post through Ajax call
      * @param string $id userId

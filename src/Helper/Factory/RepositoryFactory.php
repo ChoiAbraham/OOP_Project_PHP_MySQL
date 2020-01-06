@@ -6,29 +6,21 @@ use App\Core\App;
 use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
+use App\Repository\SessionRepository;
 use App\Repository\CountRepository;
 
-/**
- * Get the instances of all Repository
- * Factory Pattern is in App
- */
-class RepositoryFactory
-{
-    protected $postRepository;
-    protected $commentRepository;
-    protected $userRepository;
-    protected $sessionRepository;
-    protected $countRepository;
-
-    protected $repositoryFactory;
+    private $postRepository;
+    private $commentRepository;
+    private $userRepository;
+    private $sessionRepository;
+    private $countRepository;
 
     public function __construct()
     {
-        $this->repositoryFactory = App::getInstance();
-        $this->postRepository = $this->repositoryFactory->getRepository('post');
-        $this->commentRepository = $this->repositoryFactory->getRepository('comment');
-        $this->userRepository = $this->repositoryFactory->getRepository('user');
-        $this->countRepository = $this->repositoryFactory->getRepository('Count');
-        $this->sessionRepository = $this->repositoryFactory->getRepository('session');
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+        $this->userRepository = $factoryRepository->getRepository('user');
+        $this->countRepository = $factoryRepository->getRepository('Count');
+        $this->sessionRepository = $factoryRepository->getRepository('session');
     }
-}

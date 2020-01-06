@@ -9,6 +9,22 @@ use App\Core\App;
 use App\Core\Controller;
 
 $app = App::getInstance();
+
+//Test Singleton Pattern
+/*
+
+$l1 = App::getInstance();
+$l2 = App::getInstance();
+if ($l1 === $l2) {
+    echo 'single instance';
+    exit();
+} else {
+    echo '2 different instance';
+    exit();
+}
+
+ */
+
 /*
 
 set_error_handler(function($errno, $errstr, $errfile, $errline ){
@@ -24,3 +40,4 @@ set_error_handler(function($errno, $errstr, $errfile, $errline ){
     // $controller = new Controller($app);
     // $controller->notFound();
 // }
+

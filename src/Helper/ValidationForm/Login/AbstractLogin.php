@@ -3,7 +3,6 @@
 namespace App\Helper\ValidationForm\Login;
 
 use App\Core\App;
-use App\Helper\Factory\RepositoryFactory;
 use App\Repository\UserRepository;
 use App\Repository\SessionRepository;
 use App\Application\Config;
@@ -14,16 +13,20 @@ use App\Helper\ValidationForm\Cookie;
 /**
  * Abstract Class for login Admin and login User
  */
-class AbstractLogin extends RepositoryFactory
+class AbstractLogin
 {
     protected $sessionName;
     protected $cookieName;
     protected $data;
 
+    protected $userRepository;
+    protected $sessionRepository;
+
     public function __construct()
     {
-        parent::__construct();
-
+        $factoryRepository = App::getInstance();
+        $this->sessionRepository = $factoryRepository->getRepository('session');
+        $this->userRepository = $factoryRepository->getRepository('user');
         $this->sessionName = Config::get('session/session_name');
         $this->cookieName = Config::get('remember/cookie_name');
     }

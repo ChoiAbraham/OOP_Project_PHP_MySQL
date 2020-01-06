@@ -2,16 +2,29 @@
 
 namespace App\Controllers;
 
+use App\Core\App;
 use App\core\Controller;
 use App\Helper\Pagination;
 use App\Helper\ValidationForm\Check\PostValidator;
 use App\Helper\ValidationForm\Session;
+use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
 
 /*
  * manage Posts
  */
 class Postlist extends Controller
 {
+    protected $postRepository;
+    protected $commentRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+    }
+
     /**
      * list of all valid posts (where valid is 1)
      * @param  string $page

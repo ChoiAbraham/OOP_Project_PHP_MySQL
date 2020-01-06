@@ -2,6 +2,8 @@
 
 namespace App\Helper\ValidationForm\Check;
 
+use App\Core\App;
+use App\Repository\PostRepository;
 use App\Application\Config;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
@@ -13,6 +15,14 @@ use App\Helper\ValidationForm\Check\Validator;
  */
 class PostValidator extends Validator
 {
+    protected $postRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+    }
+
     /**
      * Check if Input exists, if it does, call method
      * @param  string $functionName [method to call]

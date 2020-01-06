@@ -2,24 +2,29 @@
 
 namespace App\controllers;
 
+use App\Core\App;
 use App\core\Controller;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
 use App\Helper\ValidationForm\Hash;
 use App\Helper\ValidationForm\Check\ProfilValidator;
+use App\Repository\UserRepository;
 
 /**
  * Returns profil pages (profil page, update information page, password reset page)
  */
 class Profil extends Controller
 {
-    /** @var UserRepository */
     protected $user;
 
     private $profilValidator;
 
+    protected $userRepository;
+
     public function __construct()
     {
+        $factoryRepository = App::getInstance();
+        $this->userRepository = $factoryRepository->getRepository('user');
         $this->profilValidator = new ProfilValidator();
     }
 
@@ -136,9 +141,7 @@ class Profil extends Controller
             $this->redirect('home/error404');
         }
 
-        $userRepository = $this->userRepository;
-
-        $user = $userRepository->findById($id);
+        $user = $this->userRepository->findById($id);
         $userid = $user->getId();
 
         $realHash = $user->getHash();

@@ -3,9 +3,6 @@
 namespace App\Helper\ValidationForm\Login;
 
 use App\Helper\ValidationForm\Login\AbstractLogin;
-use App\Core\App;
-use App\Repository\UserRepository;
-use App\Repository\SessionRepository;
 use App\Helper\Mailer\Mailer;
 use App\Application\Config;
 use App\Helper\ValidationForm\Session;

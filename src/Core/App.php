@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Core\Controller;
+use App\Core\Singleton;
 use App\Helper\Exceptions\AdminErrorException;
 use PDO;
 
@@ -10,7 +11,7 @@ use PDO;
  * Class App
  * defines the router
  */
-class App
+class App extends Singleton
 {
     /**
      * Singleton App
@@ -65,7 +66,7 @@ class App
     public function getMethod($url)
     {
         $object = 'App\\controllers\\' . $this->controller;
-        $this->controller = new $object(self::getInstance());
+        $this->controller = new $object(static::getInstance());
 
         if (isset($url[1])) {
             $this->method = $url[1];
@@ -76,7 +77,7 @@ class App
         $this->params = $url ? array_values($url) : [];
 
         if (method_exists($this->controller, $this->method) === false) {
-            $backController = new Controller(self::getInstance());
+            $backController = new Controller(static::getInstance());
             if ($object === 'App\\controllers\\Admin') {
                 $backController->notFoundAdmin();
             } else {
@@ -121,7 +122,7 @@ class App
     public function getRepository($name)
     {
         $class_name = '\\App\\Repository\\' . ucfirst($name) . 'Repository';
-        return new $class_name($this->getDb());
+        return $class_name::getInstanceRepo($this->getDb());
     }
 
     /**
@@ -154,7 +155,6 @@ class App
 
     /**
      * Singleton
-     */
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
@@ -163,4 +163,5 @@ class App
 
         return self::$instance;
     }
+     */
 }

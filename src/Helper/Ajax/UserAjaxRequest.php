@@ -2,6 +2,7 @@
 
 namespace App\Helper\Ajax;
 
+use App\Core\App;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
@@ -12,6 +13,18 @@ use App\Helper\Ajax\AbstractAjaxRequest;
  */
 class UserAjaxRequest extends AbstractAjaxRequest
 {
+    protected $postRepository;
+    protected $commentRepository;
+    protected $userRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+        $this->userRepository = $factoryRepository->getRepository('user');
+    }
+
     public function verifyUserRole($userId)
     {
         $userId = (int)$userId;

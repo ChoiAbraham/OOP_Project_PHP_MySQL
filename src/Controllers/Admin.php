@@ -2,16 +2,36 @@
 
 namespace App\Controllers;
 
+use App\Core\App;
 use App\Core\Controller;
 use App\Helper\ValidationForm\Session;
 use App\Helper\Pagination;
 use App\Helper\ValidationForm\Input;
+
+use App\Repository\CommentRepository;
+use App\Repository\UserRepository;
+use App\Repository\PostRepository;
+use App\Repository\CountRepository;
 
 /**
  * manages all Admin pages
  */
 class Admin extends Controller
 {
+    protected $postRepository;
+    protected $commentRepository;
+    protected $userRepository;
+    protected $countRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+        $this->userRepository = $factoryRepository->getRepository('user');
+        $this->countRepository = $factoryRepository->getRepository('Count');
+    }
+
     public function error404()
     {
         $this->adminOnly();

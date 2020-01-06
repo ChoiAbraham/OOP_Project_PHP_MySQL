@@ -2,12 +2,22 @@
 
 namespace App\Helper\ValidationForm\Check;
 
+use App\Core\App;
+use App\Repository\CommentRepository;
 use App\Application\Config;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Check\Validator;
 
 class CommentValidator extends Validator
 {
+    protected $commentRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+    }
+
     public function inputComment($functionName, $content, $postId, $userId = '')
     {
         if (Input::exists()) {

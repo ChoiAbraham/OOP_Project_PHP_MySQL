@@ -2,6 +2,8 @@
 
 namespace App\Helper\ValidationForm\Check;
 
+use App\Core\App;
+use App\Repository\UserRepository;
 use App\Application\Config;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
@@ -15,6 +17,14 @@ use App\Helper\Mailer\Mailer;
  */
 class ProfilValidator extends Validator
 {
+    protected $userRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->userRepository = $factoryRepository->getRepository('user');
+    }
+
     /**
      * Check validation Form Profil Update
      * if success, update profil info
