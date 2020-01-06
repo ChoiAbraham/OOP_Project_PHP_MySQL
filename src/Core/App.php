@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Core\Controller;
+use App\Helper\Exceptions\AdminErrorException;
 use PDO;
 
 /**
@@ -83,7 +84,22 @@ class App
             }
         }
 
-        $response = call_user_func_array(array($this->controller, $this->method), $this->params);
+        /*
+        if ($object === 'App\\controllers\\Admin') {
+
+            set_error_handler(function($errno, $errstr, $errfile, $errline ){
+                throw new AdminErrorException($errstr, $errno, 0, $errfile, $errline);
+            });
+
+            try {
+                $response = call_user_func_array(array($this->controller, $this->method), $this->params);
+            } catch (AdminErrorException $e) {
+                $backController->notFoundAdmin();
+            }
+        } else {
+         */
+            $response = call_user_func_array(array($this->controller, $this->method), $this->params);
+        // }
 
         return $response;
     }

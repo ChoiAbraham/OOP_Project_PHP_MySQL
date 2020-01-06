@@ -6,11 +6,21 @@ require '../vendor/autoload.php';
 require_once '../src/Core/init.php';
 
 use App\Core\App;
+use App\Core\Controller;
 
 $app = App::getInstance();
+/*
 
-$url = $app->getController();
+set_error_handler(function($errno, $errstr, $errfile, $errline ){
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+});
 
-$response = $app->getMethod($url);
-
-echo $response;
+ */
+// try {
+    $url = $app->getController();
+    $response = $app->getMethod($url);
+    echo $response;
+// } catch (Exception $e) {
+    // $controller = new Controller($app);
+    // $controller->notFound();
+// }

@@ -31,7 +31,7 @@ class AbstractLogin extends RepositoryFactory
     /**
      * if Cookie exists (user has checked remember-me and it created a cookie), and also the Session doesn't exist
      * then log-in the user automatically
-     * else if Cookie/session doesn't exist, logout (just in case)
+     * else if Cookie/session doesn't exist, logout
      */
     public function rememberMe()
     {

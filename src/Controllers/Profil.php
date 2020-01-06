@@ -56,7 +56,7 @@ class Profil extends Controller
         $this->userOnly();
 
         $token = $this->profilValidator->checkToken();
-        $profil->csrfInput('validateUpdate', $id);
+        $this->profilValidator->csrfInput('validateUpdate', $id);
 
         $response = $this->renderResponse(
             'log/update.html.twig',
@@ -75,7 +75,7 @@ class Profil extends Controller
         $this->userOnly();
 
         $token = $this->profilValidator->checkToken();
-        $profil->csrfInput('validatePassword', $id);
+        $this->profilValidator->csrfInput('validatePassword', $id);
 
         if (Session::exists('updateSuccess')) {
             $this->redirect('profil');
