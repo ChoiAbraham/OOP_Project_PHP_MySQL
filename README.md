@@ -75,7 +75,26 @@ STEP 2 : Install the dependencies on Composer
 2. Move to the project directory OOP_Project_PHP_MySQL
 3. run composer update, it will install the dependencies (twig, PHPMailer).
 
-STEP 2 : Set a VirtualHost with phpMyAdmin
+STEP 3 : Set the Database
+
+1. Import the projet5.sql in phpMyAdmin
+2. set the connexion to the database in src/Application/database.php. (those could be change according to your database settings).
+```
+    'host' => '127.0.0.1',
+    'db' => 'projet5',
+    'username' => 'root',
+    'password' => 'YOUR PASSWORD'
+```
+
+STEP 4 : set PHPMailer
+
+1. Create a google account/gmail. This project not being yet deployed, i decided to use the smtp of gmail.
+2. set PHPMailer parameters in src/Application/mail.php
+
+    'username' => 'your gmail address',
+    'password' => 'the password you chose for your gmail account'
+
+STEP 5 : Set a VirtualHost with phpMyAdmin
 
 1. Run WAMP/MAMP/XAMPP depending on your OS.
 2. On the taskbar, left click on the icon and set a virtual host (Vos VirtualHosts > Gestions des Virtuals Hosts)
@@ -84,7 +103,6 @@ path of the virtualHost : c:/wamp64/www/oop_project_php_mysql/public
 
 NB : choiblog must be the name of the virtualHost.
 
-STEP 3 : Set the Database
 
 
 ```

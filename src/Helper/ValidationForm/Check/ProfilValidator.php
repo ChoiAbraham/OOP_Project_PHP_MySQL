@@ -151,15 +151,17 @@ class ProfilValidator extends Validator
                 $mail = new Mailer();
                 $email = $user->getEmail();
 
+                $mailInfo = include '../src/Application/mail.php';
+
                 $res = $mail->send(
                     'mail/resetpassword',
                     ['user' => $user, 'link' => $identifier],
                     $callback = function ($message) use ($email) {
-                        $message->setFrom('choi.abri@gmail.com', 'Reset Password Recovery');
+                        $message->setFrom($mailInfo['username'], 'Reset Password Recovery');
                         //addAddress
                         $message->to($email);
                         $message->subject('Reset Your Password Email');
-                        $message->replyTo('choi.abri@gmail.com', '');
+                        $message->replyTo($mailInfo['username'], '');
                     }
                 );
                 $success[] = $res;
