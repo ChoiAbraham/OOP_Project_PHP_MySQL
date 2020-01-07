@@ -9,6 +9,7 @@ use App\Helper\Pagination;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Check\Validator;
 use App\Helper\ValidationForm\Check\PostValidator;
+use App\Helper\Exceptions\AdminErrorException;
 use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
@@ -54,7 +55,7 @@ class Admin extends Controller
         $numbers = $this->countRepository->countUserPostComment();
 
         if ($numbers === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         if (Session::exists('LogAdminSuccess')) {
@@ -90,7 +91,7 @@ class Admin extends Controller
         $users = $this->userRepository->listUsers();
 
         if ($users === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         $pagination = new Pagination($users, $currentPage, $LineNumber);
@@ -152,7 +153,7 @@ class Admin extends Controller
         $users = $this->userRepository->listAdmins();
 
         if ($users === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         $pagination = new Pagination($users, $currentPage, $LineNumber);
@@ -206,7 +207,7 @@ class Admin extends Controller
         $users = $this->postRepository->listPosts();
 
         if ($users === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         $pagination = new Pagination($users, $currentPage, $LineNumber);
@@ -266,7 +267,7 @@ class Admin extends Controller
         $users = $this->postRepository->listPostsByCommentsNotValid();
 
         if ($users === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         $pagination = new Pagination($users, $currentPage, $LineNumber);
@@ -308,7 +309,7 @@ class Admin extends Controller
         $comments = $this->commentRepository->listComments($id);
 
         if ($onePost === false || $comments === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         $response = $this->renderResponse(
@@ -332,7 +333,7 @@ class Admin extends Controller
         $post = $this->postRepository->findById($id);
 
         if ($post === false) {
-            $this->notFoundAdmin();
+            throw new AdminErrorException();
         }
 
         $profil = new PostValidator();
