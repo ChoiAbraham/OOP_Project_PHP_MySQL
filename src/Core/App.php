@@ -77,7 +77,6 @@ class App extends Singleton
         $this->params = $url ? array_values($url) : [];
 
         if (method_exists($this->controller, $this->method) === false) {
-
             $backController = new Controller();
             if ($object === 'App\\controllers\\Admin') {
                 $backController->notFoundAdmin();

@@ -8,7 +8,6 @@ use App\Repository\CommentRepository;
 use App\Helper\Ajax\AbstractAjaxRequest;
 use App\Core\Singleton;
 
-
 /**
  * Manages Posts Ajax-Requests
  */

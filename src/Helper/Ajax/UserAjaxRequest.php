@@ -3,7 +3,6 @@
 namespace App\Helper\Ajax;
 
 use App\Core\App;
-
 use App\Core\Singleton;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;

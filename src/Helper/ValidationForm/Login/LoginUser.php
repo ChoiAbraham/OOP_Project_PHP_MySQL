@@ -52,6 +52,5 @@ class LoginUser extends AbstractLogin
             }
             return false;
         }
-
     }
 }

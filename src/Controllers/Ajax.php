@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\App;
 use App\Core\Controller;
-
 use App\Helper\Ajax\PostAjaxRequest;
 use App\Helper\Ajax\CommentAjaxRequest;
 use App\Helper\Ajax\UserAjaxRequest;

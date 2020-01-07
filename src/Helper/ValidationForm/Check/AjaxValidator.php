@@ -3,7 +3,6 @@
 namespace App\Helper\ValidationForm\Check;
 
 use App\Core\App;
-
 use App\Application\Config;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
@@ -14,7 +13,6 @@ use App\Helper\ValidationForm\Login\LoginUser;
 use App\Repository\UserRepository;
 use App\Helper\ValidationForm\Login\Auth\DBAuthLogin;
 use App\Helper\ValidationForm\Token;
-
 
 /**
  * token Validation

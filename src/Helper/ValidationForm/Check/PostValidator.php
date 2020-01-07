@@ -96,7 +96,7 @@ class PostValidator extends Validator
     public function validateUpdateFormPostAdmin($id)
     {
         if ($this->validationUpdate()) {
-           if ($this->updatePost($id)) {
+            if ($this->updatePost($id)) {
                 Session::flash('updateSuccess', 'Your Post has been successfully updated');
                 $iduser = $_SESSION['user'];
                 $this->redirect('admin/show/' . $id);
