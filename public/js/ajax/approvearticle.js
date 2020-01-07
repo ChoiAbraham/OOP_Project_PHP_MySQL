@@ -4,15 +4,13 @@
 $(document).ready(function () {
     $("#approvearticle").on('click', function () {
         var postid = $('#postid').val();
-        var ajaxmethod = 'approveArticle';
         var shadow = $("#shadow").val();
 
         $.ajax(
             {
-                url: 'data.php',
+                url: '/ajax/approve',
                 method : 'POST',
                 data: {
-                    ajaxmethod: ajaxmethod,
                     postid: postid,
                 },
                 success: function (response) {

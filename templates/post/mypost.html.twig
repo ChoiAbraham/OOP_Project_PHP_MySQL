@@ -65,9 +65,10 @@
         {% if mypost %}
             <h4>{{ message }}</h4>
                     <p id="response"></p>
+            {% set i = 1 %}
             {% for post in mypost %}
-                <div class="paragraphe shadow{{ post.id }}">
-                <input type="hidden" id="shadow" value="shadow{{ post.id }}" name="" />
+                <div class="paragraphe" id="shadow{{ i }}">
+                <input type="hidden" class="rownumber" value="" name="" />
 
                 <h3>
                   <a href='{{ post.url }}'>{{ post.title }}</a>
@@ -76,8 +77,9 @@
                       <a type="button" href="/postlist/update/{{ post.id }}" class="btn btn-success" lt="Max-width 100%">Update</a>
                     </span>
                     <span>
-                    <input type="hidden" id="postid" value="{{ post.id }}" name="" />
-                      <button type="button"class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#delete">Delete</button>
+                    <input type="hidden" id="postid{{ i }}" value="{{ post.id }}" name="" />
+
+                      <button type="button"class="btn btn-danger" lt="Max-width 100%" data-toggle="modal" data-target="#delete{{ i }}">Delete</button>
                     </span>
                   </div>
                 </h3>
@@ -92,6 +94,29 @@
                     <span><a href="{{ post.url }}">Voir la suite</a></span>
                     <div class="pull-right"><span class="badge">Posted {{ post.lastdate }}</span></div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure to delete this Article?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="deletepost{{ i }}" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% set i = i + 1 %}
             {% endfor %}
         {% else %}
         <div class="paragraphe">No Post Created Yet</div>
@@ -115,31 +140,10 @@
 
 </section>
 
-<!-- Modal -->
-<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure to delete this Article?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="deletepost" class="btn btn-danger" data-dismiss="modal">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 {% endblock %}
 
 {% block ajax %}
-    <script src="js/ajax/deletepost.js"></script>
+    <script src="js/ajax/deletepostontable.js"></script>
 {% endblock %}
 
 {% endembed %}

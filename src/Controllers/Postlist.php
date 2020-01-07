@@ -2,16 +2,34 @@
 
 namespace App\Controllers;
 
+use App\Core\App;
 use App\core\Controller;
 use App\Helper\Pagination;
 use App\Helper\ValidationForm\Check\PostValidator;
+use App\Helper\ValidationForm\Check\Validator;
 use App\Helper\ValidationForm\Session;
+use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
 
 /*
  * manage Posts
  */
 class Postlist extends Controller
 {
+    protected $postRepository;
+    protected $commentRepository;
+    protected $validator;
+
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+
+        $this->validator = new Validator();
+    }
+
     /**
      * list of all valid posts (where valid is 1)
      * @param  string $page
@@ -66,6 +84,9 @@ class Postlist extends Controller
      */
     public function show($id = '')
     {
+        //Ajax token csrf
+        $token = $this->validator->checkToken();
+
         $onePost = $this->postRepository->findById($id);
         $comments = $this->commentRepository->listComments($id);
 
@@ -89,6 +110,7 @@ class Postlist extends Controller
             'post/comment.html.twig',
             [
                 'post' => $onePost,
+                'token' => $token,
                 'comments' => $comments,
                 'nocomment' => $noComment
             ]
@@ -107,7 +129,7 @@ class Postlist extends Controller
 
         $profil = new PostValidator();
         $token = $profil->checkToken();
-        $errors = $profil->inputPost('validateFormPost', $id);
+        $errors = $profil->csrfInput('validateFormPost', $id);
 
         if (!$errors) {
             $errors = [];
@@ -140,7 +162,7 @@ class Postlist extends Controller
 
         $profil = new PostValidator();
         $token = $profil->checkToken();
-        $errors = $profil->inputPost('validateUpdateFormPost', $id);
+        $errors = $profil->csrfInput('validateUpdateFormPostUser', $id);
 
         if (!$errors) {
             $errors = [];
@@ -177,7 +199,6 @@ class Postlist extends Controller
         } else {
             $message = '';
         }
-
 
         $response = $this->renderResponse(
             'post/mypost.html.twig',

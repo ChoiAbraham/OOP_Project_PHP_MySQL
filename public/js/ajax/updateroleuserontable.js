@@ -9,7 +9,7 @@ $(document).ready(function () {
 
             var radioValue1 = $("#adminchecked"+y+":checked"). val();
             var radioValue2 = $("#userchecked"+y+":checked"). val();
-
+            var token = $("#token" + y). val();
             if (radioValue1 == 'on') {
                 var rolechoosen = 'admin';
             } else if (radioValue2 == 'on') {
@@ -17,30 +17,32 @@ $(document).ready(function () {
             }
 
             var userid = $('#userid'+y).val();
-
-            var ajaxmethod = 'updateRole';
+            //for the next ${shadow}
+            var shadow = "shadow" + y;
 
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/updaterole',
                     method : 'POST',
                     data: {
-                        ajaxmethod: ajaxmethod,
                         userid: userid,
+                        token: token,
                         rolechoosen: rolechoosen
                     },
                     success: function (response) {
 
                         if(response === 'successadmin') {
-                            var newuserblock = '<td>admin</td>';
+                            var newuserblock = `<td id=${shadow}>admin</td>`;
                             $('#shadow'+y).after(newuserblock);
                             $("#shadow"+y).remove();
                         }
                         else if(response === 'successuser') {
-                            var newuserblock = '<td>user</td>';
+                            var newuserblock = `<td id=${shadow}>user</td>`;
                             $('#shadow'+y).after(newuserblock);
                             $("#shadow"+y).remove();
                         }
+                        // $("#response").html(response);
+
                     },
                     dataType: 'text'
                 }

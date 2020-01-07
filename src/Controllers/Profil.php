@@ -2,24 +2,29 @@
 
 namespace App\controllers;
 
+use App\Core\App;
 use App\core\Controller;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
 use App\Helper\ValidationForm\Hash;
 use App\Helper\ValidationForm\Check\ProfilValidator;
+use App\Repository\UserRepository;
 
 /**
  * Returns profil pages (profil page, update information page, password reset page)
  */
 class Profil extends Controller
 {
-    /** @var UserRepository */
     protected $user;
 
     private $profilValidator;
 
+    protected $userRepository;
+
     public function __construct()
     {
+        $factoryRepository = App::getInstance();
+        $this->userRepository = $factoryRepository->getRepository('user');
         $this->profilValidator = new ProfilValidator();
     }
 
@@ -56,12 +61,13 @@ class Profil extends Controller
         $this->userOnly();
 
         $token = $this->profilValidator->checkToken();
-        $profil->csrfInput('validateUpdate', $id);
+        $error = $this->profilValidator->csrfInput('validateUpdate', $id);
 
         $response = $this->renderResponse(
             'log/update.html.twig',
             [
-                'token' => $token
+                'token' => $token,
+                'error' => $error
             ]
         );
         return $response;
@@ -75,7 +81,7 @@ class Profil extends Controller
         $this->userOnly();
 
         $token = $this->profilValidator->checkToken();
-        $profil->csrfInput('validatePassword', $id);
+        $errors = $this->profilValidator->csrfInput('validatePassword', $id);
 
         if (Session::exists('updateSuccess')) {
             $this->redirect('profil');
@@ -84,7 +90,8 @@ class Profil extends Controller
         $response = $this->renderResponse(
             'log/password.html.twig',
             [
-                'token' => $token
+                'token' => $token,
+                'errors' => $errors
             ]
         );
         return $response;
@@ -96,10 +103,8 @@ class Profil extends Controller
      */
     public function reset()
     {
-        $this->userOnly();
-
         $token = $this->profilValidator->checkToken();
-        $errors = $profil->csrfInput('sendEmailForResetPassword');
+        $errors = $this->profilValidator->csrfInput('sendEmailForResetPassword');
         $request = Input::get('email');
 
         if (!$errors) {
@@ -123,10 +128,7 @@ class Profil extends Controller
      */
     public function newpass($id)
     {
-        $this->userOnly();
-
         /*
-
         if (Session::exists('updateSuccess')) {
             $this->redirect('home/index');
         }
@@ -136,9 +138,7 @@ class Profil extends Controller
             $this->redirect('home/error404');
         }
 
-        $userRepository = $this->userRepository;
-
-        $user = $userRepository->findById($id);
+        $user = $this->userRepository->findById($id);
         $userid = $user->getId();
 
         $realHash = $user->getHash();
@@ -150,7 +150,7 @@ class Profil extends Controller
         }
 
         $token = $this->profilValidator->checkToken();
-        $errors = $profil->csrfInput('validatePassword', $id);
+        $errors = $this->profilValidator->csrfInput('validatePassword', $id);
 
         $response = $this->renderResponse(
             'log/resetpassword.html.twig',

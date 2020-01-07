@@ -17,14 +17,11 @@ $(document).ready(function () {
             var commentid = $('#commentid'+y).val();
             console.log(commentid);
 
-            var ajaxmethod = 'changeCommentValid';
-
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/changecommentvalid',
                     method : 'POST',
                     data: {
-                        ajaxmethod: ajaxmethod,
                         commentid: commentid,
                         validation: validation
                     },

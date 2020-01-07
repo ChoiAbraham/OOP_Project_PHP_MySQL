@@ -111,7 +111,7 @@
                   {% set i = 1 %}
                   {% for userrole in userroletable %}
                   <tr id="shadowdeletenext{{ i }}">
-                    <td id="shadow{{ i }}" style="height: 65px">{{ userrole }}</td>
+                    <td id="shadow{{ i }}">{{ userrole }}</td>
                     <td style="width:180px">
                       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#update{{ i }}">
                       Update Role
@@ -166,7 +166,6 @@
                                   <input type="radio" id="userchecked{{ i }}" name="radioRole" class="custom-control-input">
                                   <label class="custom-control-label" for="userchecked{{ i }}">User</label>
                               </div>
-
                                   {% else %}
 
                               <div class="custom-control custom-radio custom-control-inline">
@@ -183,6 +182,8 @@
                           <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                           <button type="button" id="setroleuser{{ i }}" class="btn btn-success" data-dismiss="modal">Save changes</button>
+
+                          <input type="hidden" id="token{{ i }}" name="token" value="{{ token }}">
                         </form>
                       </div>
                     </div>

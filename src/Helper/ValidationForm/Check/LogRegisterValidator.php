@@ -2,6 +2,8 @@
 
 namespace App\Helper\ValidationForm\Check;
 
+use App\Core\App;
+
 use App\Application\Config;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
@@ -9,6 +11,8 @@ use App\Helper\ValidationForm\Hash;
 use App\Helper\ValidationForm\Check\Validation;
 use App\Helper\ValidationForm\Check\Validator;
 use App\Helper\ValidationForm\Login\LoginUser;
+use App\Repository\UserRepository;
+
 use App\Helper\ValidationForm\Login\Auth\DBAuthLogin;
 
 /**
@@ -17,13 +21,16 @@ use App\Helper\ValidationForm\Login\Auth\DBAuthLogin;
 class LogRegisterValidator extends Validator
 {
     protected $loginUser;
+    protected $userRepository;
+
     protected $loginAdmin;
 
     public function __construct()
     {
-        parent::__construct();
-
+        $factoryRepository = App::getInstance();
+        $this->userRepository = $factoryRepository->getRepository('user');
         $this->loginUser = new LoginUser();
+
         $this->loginAdmin = new DBAuthLogin();
     }
 

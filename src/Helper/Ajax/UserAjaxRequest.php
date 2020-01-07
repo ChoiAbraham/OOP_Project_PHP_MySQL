@@ -2,6 +2,9 @@
 
 namespace App\Helper\Ajax;
 
+use App\Core\App;
+
+use App\Core\Singleton;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
@@ -10,8 +13,20 @@ use App\Helper\Ajax\AbstractAjaxRequest;
 /**
  * Manages User Ajax-Requests
  */
-class UserAjaxRequest extends AbstractAjaxRequest
+class UserAjaxRequest extends Singleton
 {
+    protected $postRepository;
+    protected $commentRepository;
+    protected $userRepository;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->postRepository = $factoryRepository->getRepository('post');
+        $this->commentRepository = $factoryRepository->getRepository('comment');
+        $this->userRepository = $factoryRepository->getRepository('user');
+    }
+
     public function verifyUserRole($userId)
     {
         $userId = (int)$userId;

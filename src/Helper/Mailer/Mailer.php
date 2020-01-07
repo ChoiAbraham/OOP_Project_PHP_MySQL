@@ -45,28 +45,7 @@ class Mailer extends Controller
 
             return 'Message has been sent';
         } catch (Exception $e) {
-            return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            return "Message could not be sent. Mailer Error: {$this->mail->ErrorInfo}";
         }
     }
-
-    /*
-                    $mail = new Mailer();
-
-                $userdata = $this->data;
-                $email = $userdata->getEmail();
-
-                $res = $mail->send(
-                    'mail/register',
-                    ['user' => $this->data],
-                    $callback = function($message) use ($email) {
-
-                        $message->setFrom('choi.abri@gmail.com', 'This is a test');
-                        //addAddress
-                        $message->to($email);
-                        $message->subject('this is the title of the subject');
-                        $message->replyTo('choi.abri@gmail.com', 'this is the info Reply');
-                    }
-                );
-
-     */
 }

@@ -5,21 +5,21 @@ $(document).ready(function () {
     $("#commentpost").on('click', function () {
         var content = $("#commentuser").val();
         var postid = $("#postid").val();
+        var token = $("#token").val();
         // var shadow = $("#shadow").val();
         var userid = $("#userId").val();
-        var ajaxmethod = 'createComment';
 
         if(content == "")
             alert('Please check your inputs');
         else {
             $.ajax(
                 {
-                    url: 'data.php',
+                    url: '/ajax/createcomment',
                     method : 'POST',
                     data: {
                         submitbutton: 1,
-                        ajaxmethod: ajaxmethod,
                         userid: userid,
+                        token:token,
                         postid: postid,
                         contentPHP: content
                     },

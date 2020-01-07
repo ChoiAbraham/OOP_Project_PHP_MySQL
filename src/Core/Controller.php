@@ -3,17 +3,11 @@
 namespace App\Core;
 
 use App\Controllers\Traits\CoreTrait;
-use App\Helper\Factory\RepositoryFactory;
 use App\Helper\ValidationForm\Session;
 
-class Controller extends RepositoryFactory
+class Controller
 {
     use CoreTrait;
-
-    public function __construct(App $app)
-    {
-        parent::__construct($app);
-    }
 
     public function renderResponse(string $template, array $params = [])
     {

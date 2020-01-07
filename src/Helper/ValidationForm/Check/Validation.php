@@ -2,6 +2,8 @@
 
 namespace App\Helper\ValidationForm\Check;
 
+use App\Core\App;
+use App\Repository\UserRepository;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Check\Validator;
 
@@ -13,9 +15,16 @@ use App\Helper\ValidationForm\Check\Validator;
  */
 class Validation extends Validator
 {
+    private $userRepository;
     private $pass = false;
     private $errors = array();
     private $dbUser = null;
+
+    public function __construct()
+    {
+        $factoryRepository = App::getInstance();
+        $this->userRepository = $factoryRepository->getRepository('user');
+    }
 
     public function check($source, $items = array())
     {

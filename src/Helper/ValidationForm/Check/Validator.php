@@ -6,12 +6,11 @@ use App\Core\App;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Token;
 use App\Helper\ValidationForm\Login;
-use App\Helper\Factory\RepositoryFactory;
 
 /*
  * Abstract Class for Validator classes
  */
-class Validator extends RepositoryFactory
+class Validator
 {
     // TODO: Controller : same method
     public function redirect($location = null)

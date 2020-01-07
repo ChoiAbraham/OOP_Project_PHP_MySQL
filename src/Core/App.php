@@ -3,13 +3,15 @@
 namespace App\Core;
 
 use App\Core\Controller;
+use App\Core\Singleton;
+use App\Helper\Exceptions\AdminErrorException;
 use PDO;
 
 /**
  * Class App
  * defines the router
  */
-class App
+class App extends Singleton
 {
     /**
      * Singleton App
@@ -64,7 +66,7 @@ class App
     public function getMethod($url)
     {
         $object = 'App\\controllers\\' . $this->controller;
-        $this->controller = new $object(self::getInstance());
+        $this->controller = new $object();
 
         if (isset($url[1])) {
             $this->method = $url[1];
@@ -75,7 +77,8 @@ class App
         $this->params = $url ? array_values($url) : [];
 
         if (method_exists($this->controller, $this->method) === false) {
-            $backController = new Controller(self::getInstance());
+
+            $backController = new Controller();
             if ($object === 'App\\controllers\\Admin') {
                 $backController->notFoundAdmin();
             } else {
@@ -83,7 +86,22 @@ class App
             }
         }
 
-        $response = call_user_func_array(array($this->controller, $this->method), $this->params);
+        /*
+        if ($object === 'App\\controllers\\Admin') {
+
+            set_error_handler(function($errno, $errstr, $errfile, $errline ){
+                throw new AdminErrorException($errstr, $errno, 0, $errfile, $errline);
+            });
+
+            try {
+                $response = call_user_func_array(array($this->controller, $this->method), $this->params);
+            } catch (AdminErrorException $e) {
+                $backController->notFoundAdmin();
+            }
+        } else {
+         */
+            $response = call_user_func_array(array($this->controller, $this->method), $this->params);
+        // }
 
         return $response;
     }
@@ -105,7 +123,7 @@ class App
     public function getRepository($name)
     {
         $class_name = '\\App\\Repository\\' . ucfirst($name) . 'Repository';
-        return new $class_name($this->getDb());
+        return $class_name::getInstanceRepo($this->getDb());
     }
 
     /**
@@ -115,7 +133,7 @@ class App
     public function getAjaxRequest($name)
     {
         $className = '\\App\\Helper\\Ajax\\' . ucfirst($name) . 'AjaxRequest';
-        return new $className();
+        return $className::getInstance();
     }
 
     /**
@@ -138,13 +156,13 @@ class App
 
     /**
      * Singleton
-     */
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = new App();
+            self::$instance = new App
         }
 
         return self::$instance;
     }
+     */
 }
