@@ -1,9 +1,9 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 use App\Core\App;
-use App\core\Controller;
+use App\Core\Controller;
 use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
 use App\Helper\ValidationForm\Hash;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\core\Controller;
+use App\Core\Controller;
 use App\Helper\ValidationForm\Session;
 
 /**

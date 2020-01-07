@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Core;
+
 use App\Application\Config;
 use App\Repository\sessionRepository;
 use App\Helper\ValidationForm\Cookie;
