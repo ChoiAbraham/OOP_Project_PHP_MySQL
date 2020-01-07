@@ -1,36 +1,3 @@
-templates\mail\resetpassword.html.twig
-change
-href="choiblog/profil/..."
-
-templates\mail\resetpassword.html.twig
-change
-href="choiblog/profil/..."
-
-set virtual Host
-place the repo inside the www.
-
-https://myaccount.google.com/u/0/lesssecureapps
-
-Some basic Git commands are:
-```
-git status
-git add
-git commit
-```
-[Contribution guidelines for this project](docs/CONTRIBUTING.md)
-
-
-- George Washington
-- John Adams
-- Thomas Jefferson
-
-- [x] Finish my changes
-- [ ] Push my commits to GitHub
-- [ ] Open a pull request
-- [ ] \(Optional) Open a followup issue
-
-
-
 # OOP_Project_PHP_MySQL
 
 This project is to create a secured Blog in Object-Oriented Programming with PHP/MySQL/Composer/Twig/Ajax. It includes the developper blog home page, an user/admin login interface, posts/commments pages, profil pages.
@@ -95,6 +62,7 @@ STEP 4 : set PHPMailer
     'username' => 'your gmail address',
     'password' => 'the password you chose for your gmail account'
 ```
+3. Go on https://myaccount.google.com/u/0/lesssecureapps. Allow authorize.
 
 STEP 5 : Set a VirtualHost with phpMyAdmin
 
