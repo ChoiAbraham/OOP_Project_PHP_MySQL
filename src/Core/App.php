@@ -54,6 +54,7 @@ class App extends Singleton
 
         $this->controller = ucfirst($this->controller);
         require_once '../src/controllers/' . $this->controller . '.php';
+
         return $url;
     }
 
@@ -78,9 +79,9 @@ class App extends Singleton
         if (method_exists($this->controller, $this->method) === false) {
             $backController = new Controller();
             if ($object === 'App\\controllers\\Admin') {
-                $backController->notFoundAdmin();
+                throw new AdminErrorException();
             } else {
-                $backController->notFound();
+                throw new \Exception();
             }
         }
 

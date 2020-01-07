@@ -10,6 +10,20 @@ use App\Helper\ValidationForm\Session;
  */
 class Home extends Controller
 {
+    /**
+     * forbidden page
+     */
+    public function forbidden()
+    {
+        $response = $this->renderResponse(
+            'home/forbidden.html.twig',
+            [
+            ]
+        );
+
+        return $response;
+    }
+
     public function error404()
     {
         if (Session::exists('adminrequired')) {
