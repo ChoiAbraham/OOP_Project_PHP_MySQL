@@ -76,6 +76,11 @@ path of the virtualHost : c:/wamp64/www/oop_project_php_mysql/public
 
 NB : choiblog must be the name of the virtualHost.
 
+## Testing
+
+To test the user interface, create an account on the register page then login on the login page. There you can modify your information, create post, create comments.
+To test the admin interface, go to the developper admin account (username and password : abraham). There you can set any user account as admin, approve articles/comments, modify articles, delete articles, get notifications (new User/articles/comments).
+
 ## Built With
 
 * [Bootstrap](https://getbootstrap.com/)
