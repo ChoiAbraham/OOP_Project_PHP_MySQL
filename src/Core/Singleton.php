@@ -31,7 +31,7 @@ class Singleton
         $subclass = static::class;
         if (!isset(self::$instances[$subclass])) {
             //"static" means "the name of the current class"
-            self::$instances[$subclass] = new static;
+            self::$instances[$subclass] = new static();
         }
         return self::$instances[$subclass];
     }

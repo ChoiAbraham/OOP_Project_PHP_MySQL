@@ -21,6 +21,7 @@ class DBAuthLogin extends AbstractLogin
 
         if ($this->data) {
             $bool = $this->data->getRole() === 'admin';
+
             if ($bool) {
                 if ($this->data->getPassword() === Hash::make($password, $this->data->getSalt())) {
                     Session::put($this->sessionName, $this->data->getId());
@@ -29,7 +30,7 @@ class DBAuthLogin extends AbstractLogin
                         Session::delete('role');
                     }
 
-                    Session::put('role', $bool);
+                    Session::put('role', $this->data->getRole());
 
                     if ($remember) {
                         $id = $this->data->getId();

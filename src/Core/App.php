@@ -42,7 +42,6 @@ class App extends Singleton
 
     /**
      * get the controller in $this->controller from the url
-     * @param array : parsed url
      * @return array : parsed url : unset controller, method and params remain if exist
      */
     public function getController()
@@ -55,6 +54,7 @@ class App extends Singleton
 
         $this->controller = ucfirst($this->controller);
         require_once '../src/controllers/' . $this->controller . '.php';
+
         return $url;
     }
 
@@ -77,16 +77,14 @@ class App extends Singleton
         $this->params = $url ? array_values($url) : [];
 
         if (method_exists($this->controller, $this->method) === false) {
-
             $backController = new Controller();
             if ($object === 'App\\controllers\\Admin') {
-                $backController->notFoundAdmin();
+                throw new AdminErrorException();
             } else {
-                $backController->notFound();
+                throw new \Exception();
             }
         }
 
-        /*
         if ($object === 'App\\controllers\\Admin') {
 
             set_error_handler(function($errno, $errstr, $errfile, $errline ){
@@ -99,9 +97,8 @@ class App extends Singleton
                 $backController->notFoundAdmin();
             }
         } else {
-         */
             $response = call_user_func_array(array($this->controller, $this->method), $this->params);
-        // }
+        }
 
         return $response;
     }
@@ -153,16 +150,4 @@ class App extends Singleton
 
         return $this->database;
     }
-
-    /**
-     * Singleton
-    public static function getInstance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new App
-        }
-
-        return self::$instance;
-    }
-     */
 }

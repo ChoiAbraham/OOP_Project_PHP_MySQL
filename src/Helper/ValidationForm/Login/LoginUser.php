@@ -21,7 +21,7 @@ class LoginUser extends AbstractLogin
                 Session::put($this->sessionName, $this->data->getId());
 
                 if (Session::exists('role')) {
-                        Session::delete('role');
+                    Session::delete('role');
                 }
 
                 Session::put('role', $this->data->getRole());
@@ -52,6 +52,5 @@ class LoginUser extends AbstractLogin
             }
             return false;
         }
-
     }
 }

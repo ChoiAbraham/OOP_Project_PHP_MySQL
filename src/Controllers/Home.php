@@ -1,8 +1,8 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\core\Controller;
+use App\Core\Controller;
 use App\Helper\ValidationForm\Session;
 
 /**
@@ -10,6 +10,20 @@ use App\Helper\ValidationForm\Session;
  */
 class Home extends Controller
 {
+    /**
+     * forbidden page
+     */
+    public function forbidden()
+    {
+        $response = $this->renderResponse(
+            'home/forbidden.html.twig',
+            [
+            ]
+        );
+
+        return $response;
+    }
+
     public function error404()
     {
         if (Session::exists('adminrequired')) {
@@ -67,15 +81,15 @@ class Home extends Controller
 
             // Process download
             if (file_exists($filepath)) {
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($filepath));
-            flush(); // Flush system output buffer
-            readfile($filepath);
-            exit;
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: attachment; filename="' . basename($filepath) . '"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($filepath));
+                flush(); // Flush system output buffer
+                readfile($filepath);
+                exit;
             }
         }
     }

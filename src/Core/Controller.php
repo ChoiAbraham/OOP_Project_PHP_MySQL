@@ -18,7 +18,8 @@ class Controller
     public function forbidden()
     {
         header('HTTP/1.0 403 forbidden');
-        die('Access interdit');
+
+        $this->redirect('home/forbidden');
     }
 
     public function notFound()
@@ -54,7 +55,7 @@ class Controller
         if (!Session::exists('role')) {
             $this->notFound();
         } elseif (Session::get('role') != 'admin') {
-            $this->notFound();
+            $this->forbidden();
         }
     }
 
