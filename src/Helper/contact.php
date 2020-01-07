@@ -22,6 +22,8 @@ $message = $_POST['message'];
 //send email
 $mail = new Mailer();
 
+$mailInfo = include '../src/Application/mail.php';
+
 $res = $mail->send(
     'mail/contact',
     [
@@ -33,7 +35,7 @@ $res = $mail->send(
     $callback = function ($message) use ($email) {
         $message->setFrom($email, 'EMAIL FROM YOUR WEBSITE MYBLOG/');
         //addAddress
-        $message->to('choi.abri@gmail.com');
+        $message->to($mailInfo['username']);
         $message->replyTo($email, '');
     }
 );
