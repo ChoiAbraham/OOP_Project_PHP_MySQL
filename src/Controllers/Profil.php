@@ -61,12 +61,13 @@ class Profil extends Controller
         $this->userOnly();
 
         $token = $this->profilValidator->checkToken();
-        $this->profilValidator->csrfInput('validateUpdate', $id);
+        $error = $this->profilValidator->csrfInput('validateUpdate', $id);
 
         $response = $this->renderResponse(
             'log/update.html.twig',
             [
-                'token' => $token
+                'token' => $token,
+                'error' => $error
             ]
         );
         return $response;
@@ -80,7 +81,7 @@ class Profil extends Controller
         $this->userOnly();
 
         $token = $this->profilValidator->checkToken();
-        $this->profilValidator->csrfInput('validatePassword', $id);
+        $errors = $this->profilValidator->csrfInput('validatePassword', $id);
 
         if (Session::exists('updateSuccess')) {
             $this->redirect('profil');
@@ -89,7 +90,8 @@ class Profil extends Controller
         $response = $this->renderResponse(
             'log/password.html.twig',
             [
-                'token' => $token
+                'token' => $token,
+                'errors' => $errors
             ]
         );
         return $response;
@@ -101,10 +103,8 @@ class Profil extends Controller
      */
     public function reset()
     {
-        $this->userOnly();
-
         $token = $this->profilValidator->checkToken();
-        $errors = $profil->csrfInput('sendEmailForResetPassword');
+        $errors = $this->profilValidator->csrfInput('sendEmailForResetPassword');
         $request = Input::get('email');
 
         if (!$errors) {
@@ -128,10 +128,7 @@ class Profil extends Controller
      */
     public function newpass($id)
     {
-        $this->userOnly();
-
         /*
-
         if (Session::exists('updateSuccess')) {
             $this->redirect('home/index');
         }
@@ -153,7 +150,7 @@ class Profil extends Controller
         }
 
         $token = $this->profilValidator->checkToken();
-        $errors = $profil->csrfInput('validatePassword', $id);
+        $errors = $this->profilValidator->csrfInput('validatePassword', $id);
 
         $response = $this->renderResponse(
             'log/resetpassword.html.twig',

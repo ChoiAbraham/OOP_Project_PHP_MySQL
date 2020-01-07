@@ -26,6 +26,14 @@
 						  <button type="submit" class="btn btn-primary">Update</button>
 						</form>
 
+						{% if error %}
+						{% for err in error %}
+     					<div class="mx-auto p-b-20">
+    						{{ err }}
+     					</div>
+     				{% endfor %}
+   					{% endif %}
+
 				</div>
 		</div>
 </section>

@@ -9,6 +9,7 @@ use App\Helper\ValidationForm\Input;
 use App\Helper\ValidationForm\Session;
 use App\Helper\ValidationForm\Check\Validation;
 use App\Helper\ValidationForm\Check\Validator;
+use App\Helper\ValidationForm\Login\AbstractLogin;
 
 /**
  * Post Form Validator
@@ -16,23 +17,13 @@ use App\Helper\ValidationForm\Check\Validator;
 class PostValidator extends Validator
 {
     protected $postRepository;
+    private $abstractLogin;
 
     public function __construct()
     {
         $factoryRepository = App::getInstance();
         $this->postRepository = $factoryRepository->getRepository('post');
-    }
-
-    /**
-     * Check if Input exists, if it does, call method
-     * @param  string $functionName [method to call]
-     * @param  string $id           [postId]
-     */
-    public function inputPost($functionName, $id = '')
-    {
-        if (Input::exists()) {
-            return static::$functionName($id);
-        }
+        $this->abstractLogin = new AbstractLogin();
     }
 
     /**
@@ -76,11 +67,49 @@ class PostValidator extends Validator
     }
 
     /**
-     * Validate Form for updating a Post
+     * Validate Form for updating a Post / User Interface
      * @param int $id [postId]
      * @return array [errors]
      */
-    public function validateUpdateFormPost($id)
+    public function validateUpdateFormPostUser($id)
+    {
+        if ($this->validationUpdate()) {
+            $this->updatePost($id);
+
+            Session::flash('updateSuccess', 'Your Post has been successfully updated');
+            $iduser = $_SESSION['user'];
+
+            $this->redirect('postlist/mypost/' . $iduser);
+        } else {
+            foreach ($validation->errors() as $error) {
+                $errors[] = $error;
+            }
+            return $errors;
+        }
+    }
+
+    /**
+     * Validate Form for updating a Post / admin interface
+     * @param int $id [postId]
+     * @return array [errors]
+     */
+    public function validateUpdateFormPostAdmin($id)
+    {
+        if ($this->validationUpdate()) {
+           if ($this->updatePost($id)) {
+                Session::flash('updateSuccess', 'Your Post has been successfully updated');
+                $iduser = $_SESSION['user'];
+                $this->redirect('admin/show/' . $id);
+            }
+        } else {
+            foreach ($validation->errors() as $error) {
+                $errors[] = $error;
+            }
+            return $errors;
+        }
+    }
+
+    private function validationUpdate()
     {
         $validate = new Validation();
 
@@ -96,26 +125,21 @@ class PostValidator extends Validator
             )
         ));
 
-        if ($validate->getPass()) {
-            $jour = date("Y-m-d H:i:s");
+        return $validate->getPass();
+    }
 
-            $post = $this->postRepository;
-            $post->updatePostById($id, array(
-                'title' => Input::get('title_post'),
-                'author' => Input::get('author_post'),
-                'standfirst' => Input::get('standfirst_post'),
-                'content' => Input::get('content_post'),
-                'lastdate' => $jour
-            ));
+    private function updatePost($id)
+    {
+        $jour = date("Y-m-d H:i:s");
 
-            Session::flash('updateSuccess', 'Your Post has been successfully updated');
-            $iduser = $_SESSION['user'];
-            $this->redirect('postlist/mypost/' . $iduser);
-        } else {
-            foreach ($validation->errors() as $error) {
-                $errors[] = $error;
-            }
-            return $errors;
-        }
+        $post = $this->postRepository;
+        $result = $post->updatePostById($id, array(
+            'title' => Input::get('title_post'),
+            'author' => Input::get('author_post'),
+            'standfirst' => Input::get('standfirst_post'),
+            'content' => Input::get('content_post'),
+            'lastdate' => $jour
+        ));
+        return $result;
     }
 }

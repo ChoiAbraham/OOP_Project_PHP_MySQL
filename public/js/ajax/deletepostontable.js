@@ -1,5 +1,5 @@
 //Delete Post an Article - Js - php - Ajax call
-//in articles.html.twig
+//in articles.html.twig and mypost.html.twig
 
 $(document).ready(function () {
     $('.rownumber').each(function(i){

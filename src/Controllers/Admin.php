@@ -7,6 +7,8 @@ use App\Core\Controller;
 use App\Helper\ValidationForm\Session;
 use App\Helper\Pagination;
 use App\Helper\ValidationForm\Input;
+use App\Helper\ValidationForm\Check\Validator;
+use App\Helper\ValidationForm\Check\PostValidator;
 
 use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
@@ -23,6 +25,8 @@ class Admin extends Controller
     protected $userRepository;
     protected $countRepository;
 
+    protected $validator;
+
     public function __construct()
     {
         $factoryRepository = App::getInstance();
@@ -30,6 +34,7 @@ class Admin extends Controller
         $this->commentRepository = $factoryRepository->getRepository('comment');
         $this->userRepository = $factoryRepository->getRepository('user');
         $this->countRepository = $factoryRepository->getRepository('Count');
+        $this->validator = new Validator();
     }
 
     public function error404()
@@ -77,6 +82,9 @@ class Admin extends Controller
     {
         $this->adminOnly();
 
+        //Ajax token csrf
+        $token = $this->validator->checkToken();
+
         $currentPage = (int)$page;
         $LineNumber = 20;
 
@@ -118,6 +126,7 @@ class Admin extends Controller
             'admin/userstable.html.twig',
             [
                 'users' => $usertable,
+                'token' => $token,
                 'pagenumber' => $pageNumber,
                 'currentpage' => $currentPage,
                 'arraypage' => $arrayPage,
@@ -308,6 +317,39 @@ class Admin extends Controller
             [
                 'post' => $onePost,
                 'comments' => $comments
+            ]
+        );
+
+        return $response;
+    }
+
+    /**
+     * Modify/update One Article identified by $id (title, contents, comments)
+     */
+    public function modify($id = '')
+    {
+        $this->adminOnly();
+
+        $post = $this->postRepository->findById($id);
+
+        if ($post === false) {
+            $this->notFoundAdmin();
+        }
+
+        $profil = new PostValidator();
+        $token = $profil->checkToken();
+        $errors = $profil->csrfInput('validateUpdateFormPostAdmin', $id);
+
+        if (!$errors) {
+            $errors = [];
+        }
+
+        $response = $this->renderResponse(
+            'admin/updatepost.html.twig',
+            [
+                'token' => $token,
+                'post' => $post,
+                'error' => $errors
             ]
         );
 

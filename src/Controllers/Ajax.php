@@ -8,6 +8,7 @@ use App\Core\Controller;
 use App\Helper\Ajax\PostAjaxRequest;
 use App\Helper\Ajax\CommentAjaxRequest;
 use App\Helper\Ajax\UserAjaxRequest;
+use App\Helper\ValidationForm\Check\AjaxValidator;
 
 /**
  * Ajax controller
@@ -18,12 +19,15 @@ class Ajax extends Controller
     protected $userAjaxRequest;
     protected $postAjaxRequest;
 
+    protected $ajaxValidator;
+
     public function __construct()
     {
         $factory = App::getInstance();
         $this->postAjaxRequest = $factory->getAjaxRequest('post');
         $this->commentAjaxRequest = $factory->getAjaxRequest('comment');
         $this->userAjaxRequest = $factory->getAjaxRequest('user');
+        $this->ajaxValidator = new AjaxValidator();
     }
 
     /**
@@ -41,10 +45,13 @@ class Ajax extends Controller
     public function createcomment()
     {
         if (isset($_POST['postid'])) {
-            $postId = $_POST['postid'];
-            $content = $_POST['contentPHP'];
-            $userId = $_POST['userid'];
-            $response = $this->commentAjaxRequest->createComment($userId, $postId, $content);
+            $token = $_POST['token'];
+            if ($this->ajaxValidator->csrfInputAjax($token)) {
+                $postId = $_POST['postid'];
+                $content = $_POST['contentPHP'];
+                $userId = $_POST['userid'];
+                $response = $this->commentAjaxRequest->createComment($userId, $postId, $content);
+            }
 
             exit($response);
         }
@@ -87,8 +94,11 @@ class Ajax extends Controller
     public function updaterole()
     {
         if (isset($_POST['userid'])) {
-            $userId = $_POST['userid'];
-            $response = $this->userAjaxRequest->verifyUserRole($userId);
+            $token = $_POST['token'];
+            if ($this->ajaxValidator->csrfInputAjax($token)) {
+                $userId = $_POST['userid'];
+                $response = $this->userAjaxRequest->verifyUserRole($userId);
+            }
         }
     }
 

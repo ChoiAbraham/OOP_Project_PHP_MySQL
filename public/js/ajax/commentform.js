@@ -5,6 +5,7 @@ $(document).ready(function () {
     $("#commentpost").on('click', function () {
         var content = $("#commentuser").val();
         var postid = $("#postid").val();
+        var token = $("#token").val();
         // var shadow = $("#shadow").val();
         var userid = $("#userId").val();
 
@@ -18,6 +19,7 @@ $(document).ready(function () {
                     data: {
                         submitbutton: 1,
                         userid: userid,
+                        token:token,
                         postid: postid,
                         contentPHP: content
                     },

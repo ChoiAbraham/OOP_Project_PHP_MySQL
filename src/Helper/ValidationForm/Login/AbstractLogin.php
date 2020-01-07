@@ -95,4 +95,13 @@ class AbstractLogin
         Session::delete($this->sessionName);
         Cookie::delete($this->cookieName);
     }
+
+    public function isAdmin()
+    {
+        if (Session::exists('role') && Session::get('role') === 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

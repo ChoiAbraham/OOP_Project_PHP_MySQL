@@ -43,10 +43,10 @@ class ProfilValidator extends Validator
                 'required' => false
             ),
             'email' => array(
-                'required' => false
+                'required' => false,
+                'emailformat' => true
             )
         ));
-
         if ($validate->getPass()) {
             $user = $this->userRepository;
             $user->update(Input::get('firstname'), Input::get('lastname'), Input::get('email'), $id);
