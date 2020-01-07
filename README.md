@@ -88,79 +88,28 @@ STEP 3 : Set the Database
 
 STEP 4 : set PHPMailer
 
-1. Create a google account/gmail. This project not being yet deployed, i decided to use the smtp of gmail.
-2. set PHPMailer parameters in src/Application/mail.php
+1. Create a google account/gmail. This project not being yet deployed, the smtp of gmail will be used.
+2. set your PHPMailer parameters in src/Application/mail.php :
 
+```
     'username' => 'your gmail address',
     'password' => 'the password you chose for your gmail account'
+```
 
 STEP 5 : Set a VirtualHost with phpMyAdmin
 
 1. Run WAMP/MAMP/XAMPP depending on your OS.
-2. On the taskbar, left click on the icon and set a virtual host (Vos VirtualHosts > Gestions des Virtuals Hosts)
+2. On the taskbar, left click on the icon and set a virtual host (VirtualHosts > Manage Virtual Hosts)
+
+```
 name of the virtualHost : choiblog
 path of the virtualHost : c:/wamp64/www/oop_project_php_mysql/public
+```
 
 NB : choiblog must be the name of the virtualHost.
 
-
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* [Bootstrap](https://getbootstrap.com/)
+* [Twig](https://twig.symfony.com/) - Dependency Management
+* [PHPMailer](https://github.com/PHPMailer/PHPMailer)
