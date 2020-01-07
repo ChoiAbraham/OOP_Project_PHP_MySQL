@@ -29,12 +29,12 @@ STEP 1 : Clone the project into the folder www of wamp64.
 2. Open Git Bash.
 3. Move to the directory www.
 ```
-cd path_to_your_local_repo/OOP_Project_PHP_MySQL
+cd path_to_your_local_repo
 ```
 
 4. Clone the project : type the git command git clone and insert the link:
 ```
-git clone link
+git clone LINK
 ```
 STEP 2 : Install the dependencies on Composer
 
