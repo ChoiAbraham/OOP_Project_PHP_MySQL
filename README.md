@@ -4,7 +4,7 @@ This project is to create a secured Blog in Object-Oriented Programming with PHP
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the project up and running on your local machine for development.
 
 ### Prerequisites
 
@@ -29,12 +29,12 @@ STEP 1 : Clone the project into the folder www of wamp64.
 2. Open Git Bash.
 3. Move to the directory www.
 ```
-cd path_to_your_local_repo/OOP_Project_PHP_MySQL
+cd path_to_your_local_repo
 ```
 
 4. Clone the project : type the git command git clone and insert the link:
 ```
-git clone link
+git clone LINK
 ```
 STEP 2 : Install the dependencies on Composer
 
@@ -75,6 +75,11 @@ path of the virtualHost : c:/wamp64/www/oop_project_php_mysql/public
 ```
 
 NB : choiblog must be the name of the virtualHost.
+
+## Testing
+
+To test the user interface, create an account on the register page then login on the login page. There you can modify your information, create post, create comments.
+To test the admin interface, go to the developper admin account (username and password : abraham). There you can set any user account as admin, approve articles/comments, modify articles, delete articles, get notifications (new User/articles/comments).
 
 ## Built With
 
