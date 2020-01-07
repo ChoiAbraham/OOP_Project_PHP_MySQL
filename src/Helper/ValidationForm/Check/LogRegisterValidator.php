@@ -64,7 +64,7 @@ class LogRegisterValidator extends Validator
 
                 $this->redirect('profil/index');
             } else {
-                 return '<p>Sorry, logging has failed.</p>';
+                 return 'Sorry, logging has failed.';
             }
         } else {
             return $validation->errors();
@@ -101,7 +101,7 @@ class LogRegisterValidator extends Validator
                 // $this->redirect('admin/dashboard');
                 $this->redirect('admin/dashboard');
             } else {
-                return '<p>Sorry, logging has failed.</p>';
+                return 'Sorry, logging has failed.';
             }
         } else {
             return $validation->errors();
