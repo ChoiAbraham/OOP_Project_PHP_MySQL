@@ -20,7 +20,6 @@ class Postlist extends Controller
     protected $commentRepository;
     protected $validator;
 
-
     public function __construct()
     {
         $factoryRepository = App::getInstance();

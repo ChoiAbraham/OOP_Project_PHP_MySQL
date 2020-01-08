@@ -20,12 +20,8 @@ class LogRegister extends Controller
 
     public function __construct()
     {
-        if (!isset($this->login)) {
-            $this->login = new AbstractLogin();
-        }
-        if (!isset($this->logRegisterValidator)) {
-            $this->logRegisterValidator = new LogRegisterValidator();
-        }
+        $this->login = new AbstractLogin();
+        $this->logRegisterValidator = new LogRegisterValidator();
     }
 
     public function register()
@@ -48,6 +44,7 @@ class LogRegister extends Controller
                 'error' => $errors
             ]
         );
+
         return $response;
     }
 
