@@ -86,8 +86,7 @@ class App extends Singleton
         }
 
         if ($object === 'App\\controllers\\Admin') {
-
-            set_error_handler(function($errno, $errstr, $errfile, $errline ){
+            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
                 throw new AdminErrorException($errstr, $errno, 0, $errfile, $errline);
             });
 
